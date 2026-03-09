@@ -204,7 +204,10 @@
         <!-- 圖表 -->
         <div class="custom-card py-3 px-3 mb-4">
           <h6 class="text-center text-secondary mb-3">各年級參與狀況</h6>
-          <canvas id="gradeChart" height="150"></canvas>
+          <!-- 加入這個 div 來限制圖表的最大高度 -->
+          <div style="position: relative; height: 160px; width: 100%;">
+            <canvas id="gradeChart"></canvas>
+          </div>
         </div>
 
         <!-- 最新動態 -->
