@@ -6,7 +6,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
   
-  <!-- 引入外部資源庫 (Bootstrap 5, Font Awesome, Google Fonts) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
@@ -33,6 +32,12 @@
     .hero-circle { position: absolute; background: rgba(255,255,255,0.1); border-radius: 50%; }
     .c1 { width: 100px; height: 100px; top: -20px; left: -20px; }
     .c2 { width: 200px; height: 200px; bottom: -50px; right: -50px; }
+    
+    .school-logo {
+      height: 90px; margin-bottom: 15px; object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); 
+    }
+    
     .app-title { font-size: 2.2rem; font-weight: 700; letter-spacing: 2px; margin-bottom: 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.15); }
     .en-title { font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 600; opacity: 0.95; background: rgba(255,255,255,0.2); display: inline-block; padding: 8px 20px; border-radius: 50px; }
 
@@ -45,13 +50,24 @@
     .quote-text { font-size: 1rem; font-weight: 500; font-style: italic; color: #5d4037; }
 
     /* === 首頁公開統計看板 === */
-    .public-stat-card { background: white; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); height: 100%; border-bottom: 4px solid var(--primary-color); }
-    .stat-number { font-size: 2rem; font-weight: 800; color: var(--primary-color); line-height: 1.2; }
-    .stat-label { font-size: 0.9rem; color: #78909c; font-weight: 500; }
+    /* 移除 height: 100%，改用固定的 padding 與 flex 置中，避免被右側區塊拉長 */
+    .public-stat-card { background: white; border-radius: 15px; padding: 2rem 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-bottom: 4px solid var(--primary-color); display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .stat-number { font-size: 2.2rem; font-weight: 800; color: var(--primary-color); line-height: 1.2; margin-bottom: 5px; }
+    .stat-label { font-size: 0.95rem; color: #78909c; font-weight: 500; }
     .news-list { list-style: none; padding: 0; margin: 0; }
-    .news-item { padding: 10px 0; border-bottom: 1px dashed #eee; font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between; }
+    
+    .news-item { padding: 15px 0; border-bottom: 1px dashed #eee; display: flex; flex-direction: column; align-items: flex-start; }
     .news-item:last-child { border-bottom: none; }
-    .news-badge { background: #e0f2f1; color: var(--primary-dark); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 8px; }
+    .news-header { display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 8px; }
+    .news-badge { background: #e0f2f1; color: var(--primary-dark); padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; margin-right: 8px; font-weight: bold; }
+    .news-thought { font-size: 0.9rem; color: #555; background: #f9fbfb; padding: 10px 15px; border-radius: 10px; width: 100%; border-left: 4px solid var(--accent-color); line-height: 1.5; margin-top: 5px; }
+
+    /* 新增：為最新動態加入固定高度與捲軸，解決版面拉長變形的問題 */
+    .news-list-container { max-height: 350px; overflow-y: auto; padding-right: 5px; }
+    .news-list-container::-webkit-scrollbar { width: 6px; }
+    .news-list-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+    .news-list-container::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 4px; opacity: 0.7; }
+    .news-list-container::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
 
     /* 導航按鈕 */
     .nav-pills .nav-link { background: white; color: var(--text-color); border-radius: 50px; padding: 10px 25px; margin: 0 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eee; transition: all 0.3s; }
@@ -91,7 +107,6 @@
   </style>
 </head>
 <body>
-  <!-- 測試模式提示區塊 -->
   <div id="demoAlert">
     <i class="fas fa-exclamation-triangle"></i> 目前處於「本地預覽模式」，資料為模擬測試用。請記得在程式碼中填入真實的 SCRIPT_URL。預設模擬密碼為 1234。
   </div>
@@ -105,13 +120,13 @@
     <div class="hero-circle c1"></div>
     <div class="hero-circle c2"></div>
     <div class="position-relative">
+      <img src="https://via.placeholder.com/300x120/00897b/ffffff?text=Xingjia+Logo" alt="興嘉國小 Logo" class="school-logo" onerror="this.style.display='none'">
       <div class="app-title">興嘉國小親子共讀護照</div>
       <div class="en-title">Xingjia Elementary School Parent-Child Reading Passport</div>
     </div>
   </header>
 
   <div class="container main-container pb-5">
-    <!-- 每日金句 -->
     <div class="row justify-content-center">
       <div class="col-lg-8">
         <div class="quote-wrapper fade-in-up">
@@ -143,7 +158,9 @@
       <div class="col-md-6">
         <div class="glass-card p-3 h-100 mb-0">
           <h6 class="fw-bold text-secondary border-bottom pb-2 mb-2"><i class="fas fa-bullhorn me-2"></i>最新打卡動態</h6>
-          <ul class="news-list" id="recentList"><li class="text-center text-muted py-3">資料載入中...</li></ul>
+          <div class="news-list-container">
+            <ul class="news-list" id="recentList"><li class="text-center text-muted py-3">資料載入中...</li></ul>
+          </div>
         </div>
       </div>
       <div class="col-12 text-center mt-2">
@@ -156,7 +173,6 @@
       </div>
     </div>
 
-    <!-- 導航分頁 -->
     <ul class="nav nav-pills mb-4 justify-content-center fade-in-up" id="pills-tab" role="tablist">
       <li class="nav-item"><button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"><i class="fas fa-feather-alt me-1"></i> 填寫紀錄</button></li>
       <li class="nav-item"><button class="nav-link" id="pills-admin-tab" data-bs-toggle="pill" data-bs-target="#pills-admin"><i class="fas fa-user-shield me-1"></i> 管理專區</button></li>
@@ -233,7 +249,6 @@
           </div>
 
           <div class="glass-card p-4">
-            <!-- 後台導覽標籤 (加入系統設定) -->
             <ul class="nav nav-tabs mb-4" style="border-bottom: 2px solid #f0f0f0;">
               <li class="nav-item"><button class="nav-link active fw-bold" data-bs-toggle="tab" data-bs-target="#tab-list" style="color:var(--primary-color);">資料列表</button></li>
               <li class="nav-item"><button class="nav-link fw-bold text-secondary" data-bs-toggle="tab" data-bs-target="#tab-rank">參與統計</button></li>
@@ -242,7 +257,6 @@
             </ul>
 
             <div class="tab-content">
-              <!-- 1. 資料列表 -->
               <div class="tab-pane fade show active" id="tab-list">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h5 class="fw-bold mb-0 text-secondary">詳細紀錄</h5>
@@ -259,7 +273,6 @@
                 </div>
               </div>
               
-              <!-- 2. 每戶排行 -->
               <div class="tab-pane fade" id="tab-rank">
                 <h5 class="fw-bold mb-3 text-secondary">每戶(每位學生) 累積打卡統計</h5>
                 <div class="table-responsive table-container">
@@ -270,13 +283,11 @@
                 </div>
               </div>
               
-              <!-- 3. 金句管理 -->
               <div class="tab-pane fade" id="tab-quotes">
                 <div class="input-group mb-3"><input type="text" id="newQuote" class="form-control" placeholder="輸入金句..."><button class="btn btn-primary" onclick="addQuote()">新增</button></div>
                 <ul class="list-group list-group-flush" id="quotesList"><li class="text-center">載入中...</li></ul>
               </div>
 
-              <!-- 4. 系統設定 (新增密碼修改) -->
               <div class="tab-pane fade" id="tab-settings">
                 <h5 class="fw-bold mb-3 text-secondary">系統管理與設定</h5>
                 <div class="card border-0 shadow-sm p-4 mb-3" style="background-color: #f9fbfb;">
@@ -299,12 +310,11 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // === 🚀 部署設定 ===
+    // === 🚀 部署設定 (已幫您填入真實網址) ===
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzoV4qkb2MQOCR24v7iLyR_pRBJVFd3Vi5hpU27Vdk9MCIUTCi8Pcr7PVUCrm6iWKbH/exec"; 
     const isDemoMode = SCRIPT_URL === "YOUR_GAS_WEB_APP_URL";
-    let mockAdminPassword = '1234'; // 僅供 Demo Mode 測試用
+    let mockAdminPassword = '1234';
 
-    // 模擬後端回傳資料
     function getMockData(action, data) {
       return new Promise(resolve => {
         setTimeout(() => {
@@ -313,7 +323,7 @@
             case 'getPublicData': 
               resolve({
                 totalCount: 158, familyCount: 42, 
-                recentPosts: [{cls: "301", name: "王小明", book: "神奇樹屋", time: "2024-05-18"}],
+                recentPosts: [{cls: "301", name: "王小明", book: "神奇樹屋", time: "2024-05-18", thoughts: "這本書超級好看，我學到了很多勇敢冒險的精神，下次還想看第二集！"}],
                 gradeStats: {"幼兒園": 12, "1年級": 20, "2年級": 25, "3年級": 35}
               }); break;
             case 'getDashboardData':
@@ -335,7 +345,6 @@
       });
     }
 
-    // 與 GAS 溝通的 API
     async function callAPI(action, data = null) {
       if (isDemoMode) return await getMockData(action, data);
       
@@ -354,12 +363,20 @@
       return result;
     }
 
-    /* 初始化 */
     window.onload = function() {
       if(isDemoMode) document.getElementById('demoAlert').style.display = 'block';
       callAPI('getRandomQuote').then(res => document.getElementById('dailyQuote').innerText = res.quote).catch(onFailure);
       loadPublicStats();
     };
+
+    // 新增：隱藏姓名保護隱私的函式
+    function maskName(name) {
+      if (!name) return "";
+      if (name.length <= 1) return name;
+      if (name.length === 2) return name.charAt(0) + 'Ｏ';
+      if (name.length === 3) return name.charAt(0) + 'Ｏ' + name.charAt(2);
+      return name.charAt(0) + 'Ｏ'.repeat(name.length - 2) + name.charAt(name.length - 1);
+    }
 
     function loadPublicStats() {
       callAPI('getPublicData').then(data => {
@@ -367,8 +384,33 @@
         animateValue("pubFamilyCount", 0, data.familyCount, 1000);
         const list = document.getElementById('recentList');
         list.innerHTML = "";
-        if(data.recentPosts.length === 0) list.innerHTML = '<li class="text-center text-muted py-3">目前尚無紀錄</li>';
-        else data.recentPosts.forEach(p => list.innerHTML += `<li class="news-item"><div><span class="news-badge">${p.cls}</span><span class="fw-bold me-1">${p.name}</span><span class="text-muted">閱讀了</span><span class="text-primary fw-bold">《${p.book}》</span></div><small class="text-muted">${p.time}</small></li>`);
+        
+        if(data.recentPosts.length === 0) {
+          list.innerHTML = '<li class="text-center text-muted py-3">目前尚無紀錄</li>';
+        } else {
+          data.recentPosts.forEach(p => {
+            // 如果心得太長(超過 55 個字)，擷取並加上刪節號，避免破壞版面
+            let shortThoughts = (p.thoughts && p.thoughts.length > 55) ? p.thoughts.substring(0, 55) + '...' : (p.thoughts || '很棒的閱讀體驗！');
+            // 套用姓名隱私保護
+            let maskedName = maskName(p.name);
+            
+            list.innerHTML += `
+              <li class="news-item">
+                <div class="news-header">
+                  <div>
+                    <span class="news-badge">${p.cls}</span>
+                    <span class="fw-bold me-1">${maskedName}</span>
+                    <span class="text-muted" style="font-size:0.9rem;">閱讀</span>
+                    <span class="text-primary fw-bold" style="font-size:0.95rem;">《${p.book}》</span>
+                  </div>
+                  <small class="text-muted">${p.time}</small>
+                </div>
+                <div class="news-thought">
+                  <i class="fas fa-quote-left text-muted me-2" style="opacity:0.4;"></i>${shortThoughts}
+                </div>
+              </li>`;
+          });
+        }
         renderChart(data.gradeStats, 'publicGradeChart');
       }).catch(onFailure);
     }
@@ -386,7 +428,6 @@
       window.requestAnimationFrame(step);
     }
 
-    /* 表單處理 */
     function previewFile() {
       const fileInput = document.getElementById('photoFile');
       const display = document.getElementById('fileNameDisplay');
@@ -444,7 +485,6 @@
       reader.readAsDataURL(file);
     }
 
-    /* 管理後台 - 登入驗證 */
     async function loginAdmin() {
       const pass = document.getElementById('adminPass').value;
       if (!pass) return Swal.fire('請輸入密碼', '', 'warning');
@@ -473,7 +513,6 @@
       }
     }
 
-    /* 管理後台 - 修改密碼 */
     async function promptChangePassword() {
       const { value: formValues } = await Swal.fire({
         title: '修改管理員密碼',
@@ -556,7 +595,7 @@
     function editItem(i) {
       const d = globalData[i];
       Swal.fire({
-        title: '編輯資料', html: `<input id="ec" class="form-control mb-2" value="${d[1]}" placeholder="班級"><input id="en" class="form-control mb-2" value="${d[2]}" placeholder="姓名"><input id="eb" class="form-control mb-2" value="${d[3]}" placeholder="書名"><div class="row g-2 mb-2"><div class="col-6"><input id="ea" class="form-control" value="${d[4]}" placeholder="作者"></div><div class="col-6"><input id="ep" class="form-control" value="${d[5]}" placeholder="出版社"></div></div><textarea id="et" class="form-control" placeholder="心得">${d[6]}</textarea>`,
+        title: '編輯資料', html: `<input id="ec" class="form-control mb-2" value="${d[1]}" placeholder="班級"><input id="en" class="form-control mb-2" value="${d[2]}" placeholder="姓名"><input id="eb" class="form-control mb-2" value="${d[3]}" placeholder="書名"><div class="row g-2 mb-2"><div class="col-6"><input id="ea" class="form-control" value="${d[4]}" placeholder="作者"></div><div class="col-6"><input id="ep" class="form-control" value="${d[5]}" placeholder="出版社"></div></div><textarea id="et" class="form-control" placeholder="心得" style="height:100px;">${d[6]}</textarea>`,
         showCancelButton: true, confirmButtonText: '儲存', preConfirm: () => ({ className: document.getElementById('ec').value, studentName: document.getElementById('en').value, bookTitle: document.getElementById('eb').value, bookAuthor: document.getElementById('ea').value, bookPublisher: document.getElementById('ep').value, thoughts: document.getElementById('et').value })
       }).then(r => { if (r.isConfirmed) callAPI('editEntry', { index: i, rowData: r.value }).then(() => { Swal.fire('更新成功', '', 'success'); loadDashboard(); }).catch(onFailure); });
     }
