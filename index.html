@@ -50,24 +50,30 @@
     .quote-text { font-size: 1rem; font-weight: 500; font-style: italic; color: #5d4037; }
 
     /* === 首頁公開統計看板 === */
-    /* 移除 height: 100%，改用固定的 padding 與 flex 置中，避免被右側區塊拉長 */
     .public-stat-card { background: white; border-radius: 15px; padding: 2rem 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-bottom: 4px solid var(--primary-color); display: flex; flex-direction: column; justify-content: center; align-items: center; }
     .stat-number { font-size: 2.2rem; font-weight: 800; color: var(--primary-color); line-height: 1.2; margin-bottom: 5px; }
     .stat-label { font-size: 0.95rem; color: #78909c; font-weight: 500; }
-    .news-list { list-style: none; padding: 0; margin: 0; }
     
-    .news-item { padding: 15px 0; border-bottom: 1px dashed #eee; display: flex; flex-direction: column; align-items: flex-start; }
-    .news-item:last-child { border-bottom: none; }
-    .news-header { display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 8px; }
-    .news-badge { background: #e0f2f1; color: var(--primary-dark); padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; margin-right: 8px; font-weight: bold; }
-    .news-thought { font-size: 0.9rem; color: #555; background: #f9fbfb; padding: 10px 15px; border-radius: 10px; width: 100%; border-left: 4px solid var(--accent-color); line-height: 1.5; margin-top: 5px; }
-
-    /* 新增：為最新動態加入固定高度與捲軸，解決版面拉長變形的問題 */
-    .news-list-container { max-height: 350px; overflow-y: auto; padding-right: 5px; }
+    /* 捲軸與最新動態列表 */
+    .news-list-container { max-height: 380px; overflow-y: auto; padding-right: 5px; }
     .news-list-container::-webkit-scrollbar { width: 6px; }
     .news-list-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
     .news-list-container::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 4px; opacity: 0.7; }
     .news-list-container::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
+    
+    .news-list { list-style: none; padding: 0; margin: 0; }
+    .news-item { padding: 15px 0; border-bottom: 1px dashed #eee; display: flex; flex-direction: row; align-items: flex-start; justify-content: space-between; }
+    .news-item:last-child { border-bottom: none; }
+    
+    .news-content { flex-grow: 1; min-width: 0; /* 避免文字撐破 Flex 容器 */ }
+    .news-header { display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+    .news-badge { background: #e0f2f1; color: var(--primary-dark); padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; margin-right: 8px; font-weight: bold; }
+    .news-thought { font-size: 0.9rem; color: #555; background: #f9fbfb; padding: 10px 15px; border-radius: 10px; width: 100%; border-left: 4px solid var(--accent-color); line-height: 1.5; margin-top: 5px; }
+    
+    /* 照片縮圖樣式 */
+    .news-thumbnail { width: 80px; height: 80px; flex-shrink: 0; margin-left: 15px; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 2px solid #fff; }
+    .news-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .news-thumbnail:hover img { transform: scale(1.1); }
 
     /* 導航按鈕 */
     .nav-pills .nav-link { background: white; color: var(--text-color); border-radius: 50px; padding: 10px 25px; margin: 0 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eee; transition: all 0.3s; }
@@ -310,7 +316,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // === 🚀 部署設定 (已幫您填入真實網址) ===
+    // === 🚀 部署設定 ===
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzoV4qkb2MQOCR24v7iLyR_pRBJVFd3Vi5hpU27Vdk9MCIUTCi8Pcr7PVUCrm6iWKbH/exec"; 
     const isDemoMode = SCRIPT_URL === "YOUR_GAS_WEB_APP_URL";
     let mockAdminPassword = '1234';
@@ -323,7 +329,12 @@
             case 'getPublicData': 
               resolve({
                 totalCount: 158, familyCount: 42, 
-                recentPosts: [{cls: "301", name: "王小明", book: "神奇樹屋", time: "2024-05-18", thoughts: "這本書超級好看，我學到了很多勇敢冒險的精神，下次還想看第二集！"}],
+                recentPosts: [{
+                  cls: "301", name: "王小明", book: "神奇樹屋", time: "2024-05-18", 
+                  thoughts: "這本書超級好看，我學到了很多勇敢冒險的精神，下次還想看第二集！", 
+                  // 模擬照片網址
+                  imageUrl: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=200&q=80"
+                }],
                 gradeStats: {"幼兒園": 12, "1年級": 20, "2年級": 25, "3年級": 35}
               }); break;
             case 'getDashboardData':
@@ -369,13 +380,25 @@
       loadPublicStats();
     };
 
-    // 新增：隱藏姓名保護隱私的函式
+    // 隱藏姓名保護隱私的函式
     function maskName(name) {
       if (!name) return "";
       if (name.length <= 1) return name;
       if (name.length === 2) return name.charAt(0) + 'Ｏ';
       if (name.length === 3) return name.charAt(0) + 'Ｏ' + name.charAt(2);
       return name.charAt(0) + 'Ｏ'.repeat(name.length - 2) + name.charAt(name.length - 1);
+    }
+
+    // 將 Google Drive 共享連結轉換為可以直接顯示為圖片的連結
+    function getDisplayImageUrl(url) {
+      if (!url) return "";
+      if (url.includes("drive.google.com")) {
+        let id = "";
+        if (url.includes("id=")) id = url.split("id=")[1].split("&")[0];
+        else if (url.includes("/d/")) id = url.split("/d/")[1].split("/")[0];
+        if (id) return `https://drive.google.com/uc?id=${id}`;
+      }
+      return url;
     }
 
     function loadPublicStats() {
@@ -389,25 +412,41 @@
           list.innerHTML = '<li class="text-center text-muted py-3">目前尚無紀錄</li>';
         } else {
           data.recentPosts.forEach(p => {
-            // 如果心得太長(超過 55 個字)，擷取並加上刪節號，避免破壞版面
             let shortThoughts = (p.thoughts && p.thoughts.length > 55) ? p.thoughts.substring(0, 55) + '...' : (p.thoughts || '很棒的閱讀體驗！');
-            // 套用姓名隱私保護
             let maskedName = maskName(p.name);
+            
+            // 處理圖片顯示邏輯 (相容不同後端的屬性命名)
+            let rawPhotoUrl = p.imageUrl || p.photoUrl || p.image || p.photo || "";
+            let imgHtml = "";
+            
+            if (rawPhotoUrl && rawPhotoUrl.trim() !== "") {
+              let displayUrl = getDisplayImageUrl(rawPhotoUrl);
+              imgHtml = `
+                <div class="news-thumbnail">
+                  <a href="${rawPhotoUrl}" target="_blank" title="點擊查看大圖">
+                    <img src="${displayUrl}" onerror="this.style.display='none';">
+                  </a>
+                </div>
+              `;
+            }
             
             list.innerHTML += `
               <li class="news-item">
-                <div class="news-header">
-                  <div>
-                    <span class="news-badge">${p.cls}</span>
-                    <span class="fw-bold me-1">${maskedName}</span>
-                    <span class="text-muted" style="font-size:0.9rem;">閱讀</span>
-                    <span class="text-primary fw-bold" style="font-size:0.95rem;">《${p.book}》</span>
+                <div class="news-content">
+                  <div class="news-header">
+                    <div>
+                      <span class="news-badge">${p.cls}</span>
+                      <span class="fw-bold me-1">${maskedName}</span>
+                      <span class="text-muted" style="font-size:0.9rem;">閱讀</span>
+                      <span class="text-primary fw-bold" style="font-size:0.95rem;">《${p.book}》</span>
+                    </div>
+                    <small class="text-muted">${p.time}</small>
                   </div>
-                  <small class="text-muted">${p.time}</small>
+                  <div class="news-thought">
+                    <i class="fas fa-quote-left text-muted me-2" style="opacity:0.4;"></i>${shortThoughts}
+                  </div>
                 </div>
-                <div class="news-thought">
-                  <i class="fas fa-quote-left text-muted me-2" style="opacity:0.4;"></i>${shortThoughts}
-                </div>
+                ${imgHtml}
               </li>`;
           });
         }
