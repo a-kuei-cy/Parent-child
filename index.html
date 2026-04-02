@@ -45,12 +45,21 @@
     /* 右側數據區塊 */
     .stat-box { background: linear-gradient(135deg, #ffffff 0%, #f1f8e9 100%); border-left: 5px solid var(--primary-color); padding: 1.5rem; border-radius: 15px; margin-bottom: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
     .stat-number { font-size: 2.5rem; font-weight: bold; color: var(--primary-color); }
-    .recent-post-item { padding: 1rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: flex-start; }
+    
+    /* 動態列表與捲軸 */
+    .recent-posts-container { max-height: 380px; overflow-y: auto; padding-right: 5px; }
+    .recent-posts-container::-webkit-scrollbar { width: 6px; }
+    .recent-posts-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+    .recent-posts-container::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 4px; opacity: 0.7; }
+    .recent-posts-container::-webkit-scrollbar-thumb:hover { background: #004d40; }
+
+    .recent-post-item { padding: 1rem 0; border-bottom: 1px dashed #eee; display: flex; justify-content: space-between; align-items: flex-start; }
     .recent-post-item:last-child { border-bottom: none; }
-    .post-content { flex: 1; padding-right: 15px; }
-    .post-thumbnail { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: transform 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .post-content { flex: 1; padding-right: 15px; min-width: 0; }
+    .post-thumbnail { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: transform 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 2px solid #fff; flex-shrink: 0; }
     .post-thumbnail:hover { transform: scale(1.05); }
-    .thought-text { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 0.9rem; color: #666; }
+    .thought-text { font-size: 0.9rem; color: #555; background: #f9fbfb; padding: 10px; border-radius: 10px; border-left: 3px solid #ffb74d; margin-top: 8px; line-height: 1.4; word-break: break-word; }
+    .news-badge { background: #e0f2f1; color: #005b4f; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 8px; font-weight: bold; }
 
     /* 後台區塊 */
     .admin-table th { background-color: var(--primary-color); color: white; white-space: nowrap; }
@@ -64,16 +73,20 @@
 </head>
 <body>
 
+  <!-- 頂部標題區 -->
   <div class="header-banner text-center">
     <i class="fas fa-lock admin-login-btn" onclick="promptLogin()" title="系統登入 (管理員/導師)"></i>
     <div class="container">
       <h1 class="fw-bold"><i class="fas fa-book-reader me-2"></i>興嘉國小親子共讀護照</h1>
+      <!-- 隨機金句顯示區 -->
       <p class="mb-0 mt-2 opacity-75 fs-5 fw-bold" id="quoteText">載入金句中...</p>
     </div>
   </div>
 
+  <!-- ==================== 前台：打卡與展示區 ==================== -->
   <div class="container" id="mainAppView">
     <div class="row">
+      <!-- 左側：打卡表單 -->
       <div class="col-lg-7">
         <div class="custom-card">
           <h4 class="mb-4 text-secondary border-bottom pb-2"><i class="fas fa-edit me-2"></i>我要打卡</h4>
@@ -102,23 +115,29 @@
         </div>
       </div>
 
+      <!-- 右側：統計數據與最新動態 -->
       <div class="col-lg-5">
         <div class="stat-box d-flex justify-content-between align-items-center">
           <div><div class="text-muted mb-1"><i class="fas fa-book me-1"></i> 全校累積共讀</div><div class="stat-number" id="totalCountDisplay">0 <span class="fs-5 text-muted fw-normal">本</span></div></div>
           <div class="text-end"><div class="text-muted mb-1"><i class="fas fa-home me-1"></i> 參與家庭</div><div class="stat-number" id="familyCountDisplay">0 <span class="fs-5 text-muted fw-normal">戶</span></div></div>
         </div>
+        
         <div class="custom-card py-3 px-3 mb-4">
           <h6 class="text-center text-secondary mb-3">各年級參與狀況</h6>
           <div style="position: relative; height: 160px; width: 100%;"><canvas id="gradeChart"></canvas></div>
         </div>
+        
         <div class="custom-card p-0 overflow-hidden">
           <div class="bg-light p-3 border-bottom text-center fw-bold text-secondary"><i class="fas fa-bullhorn me-2"></i>最新打卡動態</div>
-          <div id="recentPostsContainer" style="max-height: 400px; overflow-y: auto;"><div class="p-4 text-center text-muted">載入中...</div></div>
+          <div class="recent-posts-container p-3" id="recentPostsContainer">
+            <div class="text-center text-muted py-4">資料載入中...</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- ==================== 後台：管理員/導師視角 ==================== -->
   <div class="container" id="adminAppView" style="display: none;">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h3 class="text-secondary fw-bold" id="adminTitle"><i class="fas fa-user-shield me-2"></i>管理員後台</h3>
@@ -126,6 +145,7 @@
     </div>
 
     <div class="custom-card p-0 overflow-hidden">
+      <!-- 頁籤導覽 -->
       <ul class="nav nav-tabs bg-light pt-2 px-3 border-bottom-0" role="tablist">
         <li class="nav-item"><button class="nav-link active fw-bold" data-bs-toggle="tab" data-bs-target="#records-pane" type="button" role="tab"><i class="fas fa-list me-1"></i> <span id="tabName-records">完整打卡紀錄</span></button></li>
         <li class="nav-item"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#stats-pane" type="button" role="tab"><i class="fas fa-chart-pie me-1"></i> <span id="tabName-stats">家庭篇數統計</span></button></li>
@@ -133,7 +153,9 @@
         <li class="nav-item" id="nav-teachers"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#teachers-pane" type="button" role="tab"><i class="fas fa-chalkboard-teacher me-1"></i> 管理導師帳號</button></li>
       </ul>
 
+      <!-- 頁籤內容 -->
       <div class="tab-content p-4">
+        <!-- 面板 1：紀錄 -->
         <div class="tab-pane fade show active" id="records-pane" role="tabpanel">
           <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
             <table class="table table-hover table-bordered admin-table mb-0">
@@ -143,6 +165,7 @@
           </div>
         </div>
 
+        <!-- 面板 2：統計 -->
         <div class="tab-pane fade" id="stats-pane" role="tabpanel">
           <div class="row justify-content-center">
             <div class="col-md-8">
@@ -156,6 +179,7 @@
           </div>
         </div>
 
+        <!-- 面板 3：金句 (僅管理員可見) -->
         <div class="tab-pane fade" id="quotes-pane" role="tabpanel">
           <div class="row justify-content-center">
             <div class="col-md-8">
@@ -169,6 +193,7 @@
           </div>
         </div>
 
+        <!-- 面板 4：導師帳號 (僅管理員可見) -->
         <div class="tab-pane fade" id="teachers-pane" role="tabpanel">
           <div class="row justify-content-center">
             <div class="col-md-8">
@@ -197,30 +222,24 @@
 
   <script>
     // ==========================================
-    // ⚠️ 請在這裡填入您的 Google Apps Script 網址
+    // API 網址 (已為您替換為最新 GAS 連結)
     // ==========================================
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzoV4qkb2MQOCR24v7iLyR_pRBJVFd3Vi5hpU27Vdk9MCIUTCi8Pcr7PVUCrm6iWKbH/exec"; 
     
-    // 全域變數記錄登入狀態與資料
     let currentUserRole = ""; 
     let currentClassName = ""; 
     let sessionAdminPassword = "";
     let myChart = null;
 
-    // 網頁載入時自動執行
+    // 網頁載入執行
     window.onload = function() {
-      if(SCRIPT_URL !== "YOUR_GAS_WEB_APP_URL") {
-        fetchPublicData(); 
-        fetchQuote();
-      } else {
-        document.getElementById('recentPostsContainer').innerHTML = '<div class="p-4 text-center text-muted">請先在程式碼中設定 SCRIPT_URL 才能載入資料喔！</div>';
-        document.getElementById('quoteText').innerText = '系統尚未連結資料庫';
-      }
+      fetchPublicData(); 
+      fetchQuote();
     };
 
     // ========== 前台功能 ==========
 
-    // 檢查心得字數
+    // 檢查字數
     function checkLength() {
       const text = document.getElementById('thoughtsInput').value;
       const len = text.replace(/\s/g, '').length;
@@ -237,7 +256,7 @@
       }
     }
 
-    // 預覽上傳的照片
+    // 預覽圖片
     function previewFile() {
       const file = document.getElementById('photoFile').files[0];
       const preview = document.getElementById('previewImage');
@@ -249,14 +268,23 @@
       if (file) reader.readAsDataURL(file);
     }
 
-    // 處理雲端硬碟圖片網址 (轉換為可直接顯示的連結)
+    // 隱藏姓名保護隱私 (如: 王小明 -> 王Ｏ明)
+    function maskName(name) {
+      if (!name) return "";
+      if (name.length <= 1) return name;
+      if (name.length === 2) return name.charAt(0) + 'Ｏ';
+      if (name.length === 3) return name.charAt(0) + 'Ｏ' + name.charAt(2);
+      return name.charAt(0) + 'Ｏ'.repeat(name.length - 2) + name.charAt(name.length - 1);
+    }
+
+    // 取得圖片預覽網址
     function getDisplayImageUrl(url) {
       if (!url) return '';
       const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
       return (match && match[1]) ? `https://drive.google.com/uc?id=${match[1]}` : url;
     }
 
-    // 取得首頁圖表與動態資料
+    // 讀取首頁資料
     function fetchPublicData() {
       fetch(`${SCRIPT_URL}?action=getPublicData`)
         .then(res => res.json())
@@ -270,16 +298,27 @@
           if(data.recentPosts && data.recentPosts.length > 0) {
             data.recentPosts.forEach(post => {
               const imgUrl = getDisplayImageUrl(post.imageUrl);
-              const imgHtml = imgUrl ? `<img src="${imgUrl}" class="post-thumbnail ms-2" onclick="window.open('${post.imageUrl}', '_blank')" title="點擊放大">` : '';
-              container.innerHTML += `<div class="recent-post-item"><div class="post-content"><div class="small text-muted mb-1"><i class="far fa-clock"></i> ${post.time} · ${post.cls} ${post.name}</div><div class="fw-bold text-primary mb-1">《${post.book}》</div><div class="thought-text">${post.thoughts}</div></div>${imgHtml}</div>`;
+              const imgHtml = imgUrl ? `<img src="${imgUrl}" class="post-thumbnail ms-3" onclick="window.open('${post.imageUrl}', '_blank')" title="點擊放大">` : '';
+              const maskedName = maskName(post.name);
+              const shortThoughts = (post.thoughts && post.thoughts.length > 60) ? post.thoughts.substring(0, 60) + '...' : post.thoughts;
+              
+              container.innerHTML += `
+                <div class="recent-post-item">
+                  <div class="post-content">
+                    <div class="small text-muted mb-1"><span class="news-badge">${post.cls}</span> ${maskedName}</div>
+                    <div class="fw-bold text-primary mb-1">閱讀《${post.book}》</div>
+                    <div class="thought-text"><i class="fas fa-quote-left text-muted me-1" style="opacity:0.5"></i> ${shortThoughts}</div>
+                  </div>
+                  ${imgHtml}
+                </div>`;
             });
           } else { 
-            container.innerHTML = '<div class="p-4 text-center text-muted">目前還沒有紀錄，搶先打卡吧！</div>'; 
+            container.innerHTML = '<div class="text-center text-muted py-4">目前還沒有紀錄，搶先打卡吧！</div>'; 
           }
-        }).catch(err => console.error(err));
+        }).catch(err => console.error("資料載入異常:", err));
     }
 
-    // 取得雲端隨機金句
+    // 取得隨機金句
     function fetchQuote() {
       fetch(`${SCRIPT_URL}?action=getRandomQuote`)
         .then(res => res.json())
@@ -288,7 +327,7 @@
       }).catch(err => console.error(err));
     }
 
-    // 更新長條圖
+    // 繪製長條圖
     function updateChart(stats) {
       const ctx = document.getElementById('gradeChart').getContext('2d');
       if(myChart) myChart.destroy();
@@ -299,10 +338,10 @@
       });
     }
 
-    // 提交打卡表單
+    // 送出表單
     function handleFormSubmit(e) {
       e.preventDefault();
-      if(SCRIPT_URL === "YOUR_GAS_WEB_APP_URL") return Swal.fire('錯誤', '請填入 SCRIPT_URL', 'error');
+      
       const file = document.getElementById('photoFile').files[0];
       Swal.fire({ title: '上傳中...', html: '請耐心稍候', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
@@ -319,7 +358,7 @@
             thoughts: document.getElementById('thoughtsInput').value,
             imageName: file.name, 
             imageMime: file.type, 
-            imageData: e_read.target.result.split(',')[1] // 擷取 base64 編碼部分
+            imageData: e_read.target.result.split(',')[1]
           }
         };
         fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) })
@@ -338,7 +377,7 @@
       reader.readAsDataURL(file);
     }
 
-    // ========== 後台雙身份登入機制 ==========
+    // ========== 後台登入與管理 ==========
     function promptLogin() {
       Swal.fire({
         title: '系統登入',
@@ -359,27 +398,24 @@
             if (!res.success) throw new Error(res.message);
             currentUserRole = res.role;
             currentClassName = res.className || 'admin';
-            if (res.role === 'admin') sessionAdminPassword = pwd; // 暫存管理員密碼以供後續變更設定使用
+            if (res.role === 'admin') sessionAdminPassword = pwd;
             return true;
           }).catch(err => Swal.showValidationMessage(err.message));
         }, allowOutsideClick: () => !Swal.isLoading()
       }).then((res) => { if (res.isConfirmed) setupDashboardView(); });
     }
 
-    // 依據身份設定後台畫面
     function setupDashboardView() {
       document.getElementById('mainAppView').style.display = 'none';
       document.getElementById('adminAppView').style.display = 'block';
 
       if (currentUserRole === 'teacher') {
-        // 導師視角
         document.getElementById('adminTitle').innerHTML = `<i class="fas fa-chalkboard-teacher me-2"></i>導師後台 (${currentClassName}班)`;
         document.getElementById('tabName-records').innerText = '班級打卡紀錄';
         document.getElementById('tabName-stats').innerText = '班級篇數統計';
         document.getElementById('nav-quotes').style.display = 'none';
         document.getElementById('nav-teachers').style.display = 'none';
       } else {
-        // 管理員視角
         document.getElementById('adminTitle').innerHTML = `<i class="fas fa-user-shield me-2"></i>管理員後台`;
         document.getElementById('tabName-records').innerText = '全校打卡紀錄';
         document.getElementById('tabName-stats').innerText = '全校篇數統計';
@@ -387,10 +423,8 @@
         document.getElementById('nav-teachers').style.display = 'block';
       }
 
-      // 自動切換回第一個頁籤 (防呆)
       const firstTab = new bootstrap.Tab(document.querySelector('#adminAppView .nav-tabs button[data-bs-target="#records-pane"]'));
       firstTab.show();
-
       loadDashboardData();
     }
 
@@ -398,12 +432,10 @@
       document.getElementById('adminAppView').style.display = 'none';
       document.getElementById('mainAppView').style.display = 'block';
       currentUserRole = ""; currentClassName = ""; sessionAdminPassword = "";
-      fetchQuote(); // 登出回首頁時重新拉取一次金句
+      fetchQuote(); 
     }
 
-    // 載入後台資料
     function loadDashboardData() {
-      // 載入紀錄 (傳入 className，後端 API 會自動判斷要給全部還是過濾單一班級)
       fetch(`${SCRIPT_URL}?action=getDashboardData&className=${currentClassName}`)
         .then(res => res.json())
         .then(data => { renderAdminRecords(data.rows); renderAdminStats(data.rows); })
@@ -415,7 +447,6 @@
       }
     }
 
-    // 渲染打卡紀錄表格
     function renderAdminRecords(rows) {
       const tbody = document.getElementById('adminRecordsTableBody');
       tbody.innerHTML = '';
@@ -427,7 +458,6 @@
       });
     }
 
-    // 渲染統計表格
     function renderAdminStats(rows) {
       const statsObj = {};
       rows.forEach(row => {
@@ -435,7 +465,6 @@
         if (statsObj[key]) statsObj[key].count += 1;
         else statsObj[key] = { cls: row[1]||'未填', name: row[2]||'未填', count: 1 };
       });
-      // 依照打卡篇數排序
       const statsArray = Object.values(statsObj).sort((a, b) => b.count - a.count);
       const tbody = document.getElementById('adminStatsTableBody');
       tbody.innerHTML = '';
@@ -444,8 +473,6 @@
         tbody.innerHTML += `<tr><td><span class="badge bg-secondary rounded-pill">${idx+1}</span></td><td>${stat.cls}</td><td>${stat.name}</td><td class="text-primary fw-bold">${stat.count} 篇</td></tr>`;
       });
     }
-
-    // ========== 金句管理與導師帳號管理 (限管理員) ==========
     
     function loadQuotesList() {
       fetch(`${SCRIPT_URL}?action=getQuotesList`).then(res => res.json()).then(data => {
