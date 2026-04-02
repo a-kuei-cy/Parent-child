@@ -16,207 +16,174 @@
       --bg-color: #f0f4f8;
     }
 
-    body {
-      font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
-      background-color: var(--bg-color);
-      color: #333;
-    }
+    body { font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif; background-color: var(--bg-color); color: #333; }
 
     /* 頂部橫幅 */
-    .header-banner {
-      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-      color: white;
-      padding: 2.5rem 0;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      margin-bottom: 2rem;
-    }
+    .header-banner { background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: white; padding: 2.5rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 2rem; position: relative; }
+    .admin-login-btn { position: absolute; top: 15px; right: 20px; color: rgba(255,255,255,0.5); font-size: 1.2rem; cursor: pointer; transition: color 0.3s; }
+    .admin-login-btn:hover { color: white; }
 
     /* 卡片共用樣式 */
-    .custom-card {
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.05);
-      border: none;
-      padding: 2rem;
-      margin-bottom: 1.5rem;
-    }
+    .custom-card { background: white; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.05); border: none; padding: 2rem; margin-bottom: 1.5rem; }
 
     /* 表單元件 */
-    .form-floating > .form-control {
-      border-radius: 12px;
-      border: 1px solid #e0e0e0;
-      background-color: #fdfdfd;
-    }
-    .form-floating > .form-control:focus {
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 0.25rem rgba(0, 137, 123, 0.25);
-    }
-
-    /* 照片上傳區 */
-    .upload-box {
-      border: 2px dashed #ced4da;
-      border-radius: 15px;
-      padding: 2rem 1rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      background-color: #fafafa;
-    }
-    .upload-box:hover {
-      border-color: var(--primary-color);
-      background-color: #e0f2f1;
-    }
+    .form-floating > .form-control { border-radius: 12px; border: 1px solid #e0e0e0; background-color: #fdfdfd; }
+    .form-floating > .form-control:focus { border-color: var(--primary-color); box-shadow: 0 0 0 0.25rem rgba(0, 137, 123, 0.25); }
+    .upload-box { border: 2px dashed #ced4da; border-radius: 15px; padding: 2rem 1rem; text-align: center; cursor: pointer; transition: all 0.3s ease; background-color: #fafafa; }
+    .upload-box:hover { border-color: var(--primary-color); background-color: #e0f2f1; }
     .upload-box i { font-size: 3rem; color: #adb5bd; margin-bottom: 1rem; }
     #previewImage { max-width: 100%; max-height: 250px; border-radius: 10px; display: none; margin-top: 15px; }
 
-    /* 字數標籤 */
+    /* 標籤與按鈕 */
     .char-badge { font-size: 0.85rem; padding: 0.5em 1em; border-radius: 50px; font-weight: 600; }
     .bg-error { background-color: #ffcdd2; color: #c62828; }
     .bg-ok { background-color: #c8e6c9; color: #2e7d32; }
-
-    /* 送出按鈕 */
-    .btn-submit {
-      background: var(--primary-color); border: none; border-radius: 50px; padding: 12px 30px;
-      font-size: 1.1rem; font-weight: bold; color: white; transition: all 0.3s;
-    }
+    .btn-submit { background: var(--primary-color); border: none; border-radius: 50px; padding: 12px 30px; font-size: 1.1rem; font-weight: bold; color: white; transition: all 0.3s; }
     .btn-submit:hover:not(:disabled) { background: var(--secondary-color); transform: translateY(-2px); }
     .btn-submit:disabled { background: #ccc; }
 
-    /* 右側數據統計區塊 */
-    .stat-box {
-      background: linear-gradient(135deg, #ffffff 0%, #f1f8e9 100%);
-      border-left: 5px solid var(--primary-color);
-      padding: 1.5rem; border-radius: 15px; margin-bottom: 1.5rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-    }
+    /* 右側數據區塊 */
+    .stat-box { background: linear-gradient(135deg, #ffffff 0%, #f1f8e9 100%); border-left: 5px solid var(--primary-color); padding: 1.5rem; border-radius: 15px; margin-bottom: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
     .stat-number { font-size: 2.5rem; font-weight: bold; color: var(--primary-color); }
-
-    /* 最新動態列表與縮圖 */
-    .recent-post-item {
-      padding: 1rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;
-    }
+    .recent-post-item { padding: 1rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: flex-start; }
     .recent-post-item:last-child { border-bottom: none; }
     .post-content { flex: 1; padding-right: 15px; }
-    .post-thumbnail {
-      width: 80px; height: 80px; object-fit: cover; border-radius: 10px; cursor: pointer;
-      transition: transform 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
+    .post-thumbnail { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: transform 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     .post-thumbnail:hover { transform: scale(1.05); }
     .thought-text { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 0.9rem; color: #666; }
 
+    /* 後台區塊 */
+    .admin-table th { background-color: var(--primary-color); color: white; white-space: nowrap; }
+    .thumbnail-small { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; cursor: pointer; border: 1px solid #ddd; }
+    .thoughts-cell { max-width: 250px; overflow-y: auto; max-height: 80px; font-size: 0.9rem; }
+    .quote-item, .teacher-item { background: #f8f9fa; border-left: 4px solid var(--primary-color); padding: 15px; border-radius: 5px; margin-bottom: 10px; font-size: 1rem; color: #444;}
+    
+    /* 登入視窗樣式 */
+    .swal2-input.custom-login-input { margin: 10px auto; width: 80%; border-radius: 10px; }
   </style>
 </head>
 <body>
 
-  <!-- 頂部標題區 -->
   <div class="header-banner text-center">
+    <i class="fas fa-lock admin-login-btn" onclick="promptLogin()" title="系統登入 (管理員/導師)"></i>
     <div class="container">
       <h1 class="fw-bold"><i class="fas fa-book-reader me-2"></i>興嘉國小親子共讀護照</h1>
-      <p class="mb-0 mt-2 opacity-75" id="quoteText">「閱讀，是我們飛向世界最美的翅膀。」</p>
+      <p class="mb-0 mt-2 opacity-75 fs-5 fw-bold" id="quoteText">載入金句中...</p>
     </div>
   </div>
 
-  <div class="container">
+  <div class="container" id="mainAppView">
     <div class="row">
-      <!-- 左側：打卡表單 -->
       <div class="col-lg-7">
         <div class="custom-card">
           <h4 class="mb-4 text-secondary border-bottom pb-2"><i class="fas fa-edit me-2"></i>我要打卡</h4>
           <form id="readingForm" onsubmit="handleFormSubmit(event)">
-            
             <div class="row g-2 mb-3">
-              <div class="col-6">
-                <div class="form-floating">
-                  <input type="text" class="form-control" id="className" required placeholder="班級">
-                  <label>班級 (例如: 301)</label>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-floating">
-                  <input type="text" class="form-control" id="studentName" required placeholder="姓名">
-                  <label>學生姓名</label>
-                </div>
-              </div>
+              <div class="col-6"><div class="form-floating"><input type="text" class="form-control" id="className" required placeholder="班級"><label>班級 (例如: 301)</label></div></div>
+              <div class="col-6"><div class="form-floating"><input type="text" class="form-control" id="studentName" required placeholder="姓名"><label>學生姓名</label></div></div>
             </div>
-
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="bookTitle" required placeholder="書名">
-              <label>共讀書名</label>
-            </div>
-
+            <div class="form-floating mb-3"><input type="text" class="form-control" id="bookTitle" required placeholder="書名"><label>共讀書名</label></div>
             <div class="row g-2 mb-3">
-              <div class="col-6">
-                <div class="form-floating">
-                  <input type="text" class="form-control" id="bookAuthor" required placeholder="作者">
-                  <label>作者</label>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-floating">
-                  <input type="text" class="form-control" id="bookPublisher" required placeholder="出版社">
-                  <label>出版社</label>
-                </div>
-              </div>
+              <div class="col-6"><div class="form-floating"><input type="text" class="form-control" id="bookAuthor" required placeholder="作者"><label>作者</label></div></div>
+              <div class="col-6"><div class="form-floating"><input type="text" class="form-control" id="bookPublisher" required placeholder="出版社"><label>出版社</label></div></div>
             </div>
-
-            <div class="form-floating mb-2">
-              <textarea class="form-control" id="thoughtsInput" style="height: 150px" required oninput="checkLength()" placeholder="心得"></textarea>
-              <label>讀後心得感想 (至少 30 字)</label>
-            </div>
-            
-            <div class="text-end mb-4">
-              <span id="charCount" class="char-badge bg-error">0 / 30 字</span>
-            </div>
-
+            <div class="form-floating mb-2"><textarea class="form-control" id="thoughtsInput" style="height: 150px" required oninput="checkLength()" placeholder="心得"></textarea><label>讀後心得感想 (至少 30 字)</label></div>
+            <div class="text-end mb-4"><span id="charCount" class="char-badge bg-error">0 / 30 字</span></div>
             <div class="mb-4">
               <label class="form-label text-secondary fw-bold mb-2"><i class="fas fa-camera me-2"></i>上傳共讀照片</label>
               <div class="upload-box" onclick="document.getElementById('photoFile').click()">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <h6 class="text-secondary">點擊選擇照片</h6>
+                <i class="fas fa-cloud-upload-alt"></i><h6 class="text-secondary">點擊選擇照片</h6>
                 <input type="file" id="photoFile" accept="image/*" class="d-none" onchange="previewFile()" required>
                 <img id="previewImage" src="" alt="照片預覽">
               </div>
             </div>
-
-            <button type="submit" class="btn btn-submit w-100" id="submitBtn" disabled>
-              <i class="fas fa-paper-plane me-2"></i> 送出閱讀紀錄
-            </button>
-
+            <button type="submit" class="btn btn-submit w-100" id="submitBtn" disabled><i class="fas fa-paper-plane me-2"></i> 送出閱讀紀錄</button>
           </form>
         </div>
       </div>
 
-      <!-- 右側：統計數據與最新動態 -->
       <div class="col-lg-5">
-        
-        <!-- 統計數字 -->
         <div class="stat-box d-flex justify-content-between align-items-center">
-          <div>
-            <div class="text-muted mb-1"><i class="fas fa-book me-1"></i> 全校累積共讀</div>
-            <div class="stat-number" id="totalCountDisplay">0 <span class="fs-5 text-muted fw-normal">本</span></div>
-          </div>
-          <div class="text-end">
-            <div class="text-muted mb-1"><i class="fas fa-home me-1"></i> 參與家庭</div>
-            <div class="stat-number" id="familyCountDisplay">0 <span class="fs-5 text-muted fw-normal">戶</span></div>
-          </div>
+          <div><div class="text-muted mb-1"><i class="fas fa-book me-1"></i> 全校累積共讀</div><div class="stat-number" id="totalCountDisplay">0 <span class="fs-5 text-muted fw-normal">本</span></div></div>
+          <div class="text-end"><div class="text-muted mb-1"><i class="fas fa-home me-1"></i> 參與家庭</div><div class="stat-number" id="familyCountDisplay">0 <span class="fs-5 text-muted fw-normal">戶</span></div></div>
         </div>
-
-        <!-- 圖表 -->
         <div class="custom-card py-3 px-3 mb-4">
           <h6 class="text-center text-secondary mb-3">各年級參與狀況</h6>
-          <!-- 加入這個 div 來限制圖表的最大高度 -->
-          <div style="position: relative; height: 160px; width: 100%;">
-            <canvas id="gradeChart"></canvas>
+          <div style="position: relative; height: 160px; width: 100%;"><canvas id="gradeChart"></canvas></div>
+        </div>
+        <div class="custom-card p-0 overflow-hidden">
+          <div class="bg-light p-3 border-bottom text-center fw-bold text-secondary"><i class="fas fa-bullhorn me-2"></i>最新打卡動態</div>
+          <div id="recentPostsContainer" style="max-height: 400px; overflow-y: auto;"><div class="p-4 text-center text-muted">載入中...</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="adminAppView" style="display: none;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="text-secondary fw-bold" id="adminTitle"><i class="fas fa-user-shield me-2"></i>管理員後台</h3>
+      <button class="btn btn-outline-secondary rounded-pill" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i> 回到首頁</button>
+    </div>
+
+    <div class="custom-card p-0 overflow-hidden">
+      <ul class="nav nav-tabs bg-light pt-2 px-3 border-bottom-0" role="tablist">
+        <li class="nav-item"><button class="nav-link active fw-bold" data-bs-toggle="tab" data-bs-target="#records-pane" type="button" role="tab"><i class="fas fa-list me-1"></i> <span id="tabName-records">完整打卡紀錄</span></button></li>
+        <li class="nav-item"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#stats-pane" type="button" role="tab"><i class="fas fa-chart-pie me-1"></i> <span id="tabName-stats">家庭篇數統計</span></button></li>
+        <li class="nav-item" id="nav-quotes"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#quotes-pane" type="button" role="tab"><i class="fas fa-quote-left me-1"></i> 管理閱讀金句</button></li>
+        <li class="nav-item" id="nav-teachers"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#teachers-pane" type="button" role="tab"><i class="fas fa-chalkboard-teacher me-1"></i> 管理導師帳號</button></li>
+      </ul>
+
+      <div class="tab-content p-4">
+        <div class="tab-pane fade show active" id="records-pane" role="tabpanel">
+          <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+            <table class="table table-hover table-bordered admin-table mb-0">
+              <thead class="position-sticky top-0 shadow-sm" style="z-index: 1;"><tr><th>時間</th><th>班級</th><th>姓名</th><th>書名</th><th>心得</th><th class="text-center">照片</th></tr></thead>
+              <tbody id="adminRecordsTableBody"><tr><td colspan="6" class="text-center text-muted py-4">資料載入中...</td></tr></tbody>
+            </table>
           </div>
         </div>
 
-        <!-- 最新動態 -->
-        <div class="custom-card p-0 overflow-hidden">
-          <div class="bg-light p-3 border-bottom text-center fw-bold text-secondary">
-            <i class="fas fa-bullhorn me-2"></i>最新打卡動態
+        <div class="tab-pane fade" id="stats-pane" role="tabpanel">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                <table class="table table-hover table-bordered admin-table mb-0 text-center">
+                  <thead class="position-sticky top-0 shadow-sm" style="z-index: 1;"><tr><th>名次</th><th>班級</th><th>姓名</th><th>打卡篇數</th></tr></thead>
+                  <tbody id="adminStatsTableBody"><tr><td colspan="4" class="text-center text-muted py-4">資料載入中...</td></tr></tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          <div id="recentPostsContainer" style="max-height: 400px; overflow-y: auto;">
-            <div class="p-4 text-center text-muted">載入中...</div>
+        </div>
+
+        <div class="tab-pane fade" id="quotes-pane" role="tabpanel">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="input-group mb-4">
+                <input type="text" id="newQuoteInput" class="form-control" placeholder="請輸入新的閱讀金句 (例如: 閱讀，是我們飛向世界最美的翅膀。)">
+                <button class="btn btn-primary" style="background-color: var(--primary-color); border:none;" type="button" onclick="submitNewQuote()"><i class="fas fa-plus"></i> 新增金句</button>
+              </div>
+              <h6 class="text-muted border-bottom pb-2 mb-3">已儲存的金句列表 (新至舊)</h6>
+              <div id="quotesListContainer" style="max-height: 400px; overflow-y: auto;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="teachers-pane" role="tabpanel">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="card bg-light border-0 mb-4 p-3">
+                <h6 class="fw-bold mb-3"><i class="fas fa-user-plus me-2"></i>新增或修改導師帳號</h6>
+                <div class="row g-2">
+                  <div class="col-sm-5"><input type="text" id="tClassName" class="form-control" placeholder="班級 (例如: 301或幼兒園)"></div>
+                  <div class="col-sm-4"><input type="text" id="tPassword" class="form-control" placeholder="設定登入密碼"></div>
+                  <div class="col-sm-3"><button class="btn btn-primary w-100" style="background-color: var(--primary-color); border:none;" type="button" onclick="submitNewTeacher()"><i class="fas fa-save me-1"></i> 儲存</button></div>
+                </div>
+                <small class="text-muted mt-2">💡 提示：若輸入已存在的班級，將會直接更新該班級的密碼。</small>
+              </div>
+              <h6 class="text-muted border-bottom pb-2 mb-3">目前的導師帳號清單</h6>
+              <div id="teachersListContainer" style="max-height: 400px; overflow-y: auto;"></div>
+            </div>
           </div>
         </div>
 
@@ -230,19 +197,28 @@
 
   <script>
     // ==========================================
-    // 請在這裡填入您的 Google Apps Script 網址
+    // ⚠️ 請在這裡填入您的 Google Apps Script 網址
     // ==========================================
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzoV4qkb2MQOCR24v7iLyR_pRBJVFd3Vi5hpU27Vdk9MCIUTCi8Pcr7PVUCrm6iWKbH/exec"; 
     
-    // 初始化載入
+    // 全域變數記錄登入狀態與資料
+    let currentUserRole = ""; 
+    let currentClassName = ""; 
+    let sessionAdminPassword = "";
+    let myChart = null;
+
+    // 網頁載入時自動執行
     window.onload = function() {
       if(SCRIPT_URL !== "YOUR_GAS_WEB_APP_URL") {
-        fetchPublicData();
+        fetchPublicData(); 
         fetchQuote();
       } else {
-        document.getElementById('recentPostsContainer').innerHTML = '<div class="p-4 text-center text-muted">請先設定 SCRIPT_URL 才能載入資料喔！</div>';
+        document.getElementById('recentPostsContainer').innerHTML = '<div class="p-4 text-center text-muted">請先在程式碼中設定 SCRIPT_URL 才能載入資料喔！</div>';
+        document.getElementById('quoteText').innerText = '系統尚未連結資料庫';
       }
     };
+
+    // ========== 前台功能 ==========
 
     // 檢查心得字數
     function checkLength() {
@@ -250,7 +226,6 @@
       const len = text.replace(/\s/g, '').length;
       const badge = document.getElementById('charCount');
       const btn = document.getElementById('submitBtn');
-      
       if (len >= 30) { 
         badge.innerHTML = `<i class="fas fa-check"></i> ${len} / 30`; 
         badge.className = 'char-badge bg-ok'; 
@@ -262,174 +237,268 @@
       }
     }
 
-    // 照片預覽
+    // 預覽上傳的照片
     function previewFile() {
       const file = document.getElementById('photoFile').files[0];
       const preview = document.getElementById('previewImage');
       const reader = new FileReader();
-
-      reader.addEventListener("load", function () {
-        preview.src = reader.result;
-        preview.style.display = 'inline-block';
+      reader.addEventListener("load", function () { 
+        preview.src = reader.result; 
+        preview.style.display = 'inline-block'; 
       }, false);
-
-      if (file) {
-        reader.readAsDataURL(file);
-      }
+      if (file) reader.readAsDataURL(file);
     }
 
-    // 將 Google Drive 連結轉換為可顯示的圖片縮圖連結
+    // 處理雲端硬碟圖片網址 (轉換為可直接顯示的連結)
     function getDisplayImageUrl(url) {
       if (!url) return '';
       const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      if (match && match[1]) {
-        return `https://drive.google.com/uc?id=${match[1]}`;
-      }
-      return url;
+      return (match && match[1]) ? `https://drive.google.com/uc?id=${match[1]}` : url;
     }
 
-    // 取得公開數據與動態
+    // 取得首頁圖表與動態資料
     function fetchPublicData() {
       fetch(`${SCRIPT_URL}?action=getPublicData`)
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
-          // 更新統計數字
           document.getElementById('totalCountDisplay').innerHTML = `${data.totalCount} <span class="fs-5 text-muted fw-normal">本</span>`;
           document.getElementById('familyCountDisplay').innerHTML = `${data.familyCount} <span class="fs-5 text-muted fw-normal">戶</span>`;
-          
-          // 更新圖表
           updateChart(data.gradeStats);
           
-          // 更新最新動態列表 (包含照片縮圖)
           const container = document.getElementById('recentPostsContainer');
           container.innerHTML = '';
-          
           if(data.recentPosts && data.recentPosts.length > 0) {
             data.recentPosts.forEach(post => {
               const imgUrl = getDisplayImageUrl(post.imageUrl);
-              // 如果有圖片，則渲染右側縮圖區塊
-              const imgHtml = imgUrl ? `<img src="${imgUrl}" class="post-thumbnail ms-2" alt="共讀照片" onclick="window.open('${post.imageUrl}', '_blank')">` : '';
-              
-              const html = `
-                <div class="recent-post-item">
-                  <div class="post-content">
-                    <div class="small text-muted mb-1"><i class="far fa-clock"></i> ${post.time} · ${post.cls} ${post.name}</div>
-                    <div class="fw-bold text-primary mb-1">《${post.book}》</div>
-                    <div class="thought-text">${post.thoughts}</div>
-                  </div>
-                  ${imgHtml}
-                </div>
-              `;
-              container.innerHTML += html;
+              const imgHtml = imgUrl ? `<img src="${imgUrl}" class="post-thumbnail ms-2" onclick="window.open('${post.imageUrl}', '_blank')" title="點擊放大">` : '';
+              container.innerHTML += `<div class="recent-post-item"><div class="post-content"><div class="small text-muted mb-1"><i class="far fa-clock"></i> ${post.time} · ${post.cls} ${post.name}</div><div class="fw-bold text-primary mb-1">《${post.book}》</div><div class="thought-text">${post.thoughts}</div></div>${imgHtml}</div>`;
             });
-          } else {
-            container.innerHTML = '<div class="p-4 text-center text-muted">目前還沒有紀錄，搶先成為第一位打卡的人吧！</div>';
+          } else { 
+            container.innerHTML = '<div class="p-4 text-center text-muted">目前還沒有紀錄，搶先打卡吧！</div>'; 
           }
-        })
-        .catch(err => console.error("獲取資料失敗:", err));
+        }).catch(err => console.error(err));
     }
 
-    // 取得隨機金句
+    // 取得雲端隨機金句
     function fetchQuote() {
       fetch(`${SCRIPT_URL}?action=getRandomQuote`)
         .then(res => res.json())
         .then(data => {
           if(data.quote) document.getElementById('quoteText').innerText = data.quote;
-        }).catch(err => console.error(err));
+      }).catch(err => console.error(err));
     }
 
-    // 更新圖表函數
-    let myChart = null;
+    // 更新長條圖
     function updateChart(stats) {
       const ctx = document.getElementById('gradeChart').getContext('2d');
-      const labels = Object.keys(stats);
-      const data = Object.values(stats);
-
       if(myChart) myChart.destroy();
-      
       myChart = new Chart(ctx, {
         type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: '共讀本數',
-            data: data,
-            backgroundColor: '#80cbc4',
-            borderColor: '#00897b',
-            borderWidth: 1,
-            borderRadius: 5
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-        }
+        data: { labels: Object.keys(stats), datasets: [{ label: '本數', data: Object.values(stats), backgroundColor: '#80cbc4', borderColor: '#00897b', borderWidth: 1, borderRadius: 5 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
       });
     }
 
-    // 表單送出處理
+    // 提交打卡表單
     function handleFormSubmit(e) {
       e.preventDefault();
-      
-      if(SCRIPT_URL === "YOUR_GAS_WEB_APP_URL") {
-         Swal.fire('設定錯誤', '請先在程式碼中填入您的 SCRIPT_URL', 'error');
-         return;
-      }
-
-      const fileInput = document.getElementById('photoFile');
-      const file = fileInput.files[0];
-
-      Swal.fire({
-        title: '上傳中...',
-        html: '正在傳送照片與資料，請稍候<br><span style="font-size: 0.8rem; color:#888;">(照片越大可能需要等久一點喔)</span>',
-        allowOutsideClick: false,
-        didOpen: () => { Swal.showLoading(); }
-      });
+      if(SCRIPT_URL === "YOUR_GAS_WEB_APP_URL") return Swal.fire('錯誤', '請填入 SCRIPT_URL', 'error');
+      const file = document.getElementById('photoFile').files[0];
+      Swal.fire({ title: '上傳中...', html: '請耐心稍候', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
       const reader = new FileReader();
       reader.onload = function(e_read) {
-        const base64Data = e_read.target.result.split(',')[1];
-        
         const payload = {
           action: 'processForm',
           data: {
-            className: document.getElementById('className').value,
+            className: document.getElementById('className').value, 
             studentName: document.getElementById('studentName').value,
-            bookTitle: document.getElementById('bookTitle').value,
+            bookTitle: document.getElementById('bookTitle').value, 
             bookAuthor: document.getElementById('bookAuthor').value,
-            bookPublisher: document.getElementById('bookPublisher').value,
+            bookPublisher: document.getElementById('bookPublisher').value, 
             thoughts: document.getElementById('thoughtsInput').value,
-            imageName: file.name,
-            imageMime: file.type,
-            imageData: base64Data
+            imageName: file.name, 
+            imageMime: file.type, 
+            imageData: e_read.target.result.split(',')[1] // 擷取 base64 編碼部分
           }
         };
-
-        fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload)
-        })
-        .then(response => response.json())
-        .then(result => {
-          if (result.success) {
-            Swal.fire('成功！', '閱讀紀錄與照片已成功送出！', 'success').then(() => {
+        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) })
+        .then(res => res.json())
+        .then(res => {
+          if(res.success) {
+            Swal.fire('成功！', '閱讀紀錄已送出！', 'success').then(() => {
               document.getElementById('readingForm').reset();
               document.getElementById('previewImage').style.display = 'none';
-              checkLength();
-              fetchPublicData(); // 重新載入右側數據
+              checkLength(); 
+              fetchPublicData(); 
             });
-          } else {
-            Swal.fire('錯誤', result.message || '上傳失敗', 'error');
-          }
-        })
-        .catch(error => {
-          Swal.fire('錯誤', '網路連線異常，請稍後再試', 'error');
-          console.error(error);
-        });
+          } else Swal.fire('錯誤', res.message, 'error');
+        }).catch(err => Swal.fire('錯誤', '連線異常，請稍後再試', 'error'));
       };
       reader.readAsDataURL(file);
+    }
+
+    // ========== 後台雙身份登入機制 ==========
+    function promptLogin() {
+      Swal.fire({
+        title: '系統登入',
+        html: `
+          <input id="login-account" class="swal2-input custom-login-input" placeholder="帳號 (管理員填 admin，導師填班級)">
+          <input id="login-password" type="password" class="swal2-input custom-login-input" placeholder="請輸入密碼">
+        `,
+        showCancelButton: true, confirmButtonText: '登入', confirmButtonColor: '#00897b', cancelButtonText: '取消',
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+          const acc = document.getElementById('login-account').value;
+          const pwd = document.getElementById('login-password').value;
+          if(!acc || !pwd) { Swal.showValidationMessage('請輸入帳號與密碼'); return false; }
+          
+          return fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', data: { username: acc, password: pwd } }) })
+          .then(res => res.json())
+          .then(res => {
+            if (!res.success) throw new Error(res.message);
+            currentUserRole = res.role;
+            currentClassName = res.className || 'admin';
+            if (res.role === 'admin') sessionAdminPassword = pwd; // 暫存管理員密碼以供後續變更設定使用
+            return true;
+          }).catch(err => Swal.showValidationMessage(err.message));
+        }, allowOutsideClick: () => !Swal.isLoading()
+      }).then((res) => { if (res.isConfirmed) setupDashboardView(); });
+    }
+
+    // 依據身份設定後台畫面
+    function setupDashboardView() {
+      document.getElementById('mainAppView').style.display = 'none';
+      document.getElementById('adminAppView').style.display = 'block';
+
+      if (currentUserRole === 'teacher') {
+        // 導師視角
+        document.getElementById('adminTitle').innerHTML = `<i class="fas fa-chalkboard-teacher me-2"></i>導師後台 (${currentClassName}班)`;
+        document.getElementById('tabName-records').innerText = '班級打卡紀錄';
+        document.getElementById('tabName-stats').innerText = '班級篇數統計';
+        document.getElementById('nav-quotes').style.display = 'none';
+        document.getElementById('nav-teachers').style.display = 'none';
+      } else {
+        // 管理員視角
+        document.getElementById('adminTitle').innerHTML = `<i class="fas fa-user-shield me-2"></i>管理員後台`;
+        document.getElementById('tabName-records').innerText = '全校打卡紀錄';
+        document.getElementById('tabName-stats').innerText = '全校篇數統計';
+        document.getElementById('nav-quotes').style.display = 'block';
+        document.getElementById('nav-teachers').style.display = 'block';
+      }
+
+      // 自動切換回第一個頁籤 (防呆)
+      const firstTab = new bootstrap.Tab(document.querySelector('#adminAppView .nav-tabs button[data-bs-target="#records-pane"]'));
+      firstTab.show();
+
+      loadDashboardData();
+    }
+
+    function logout() {
+      document.getElementById('adminAppView').style.display = 'none';
+      document.getElementById('mainAppView').style.display = 'block';
+      currentUserRole = ""; currentClassName = ""; sessionAdminPassword = "";
+      fetchQuote(); // 登出回首頁時重新拉取一次金句
+    }
+
+    // 載入後台資料
+    function loadDashboardData() {
+      // 載入紀錄 (傳入 className，後端 API 會自動判斷要給全部還是過濾單一班級)
+      fetch(`${SCRIPT_URL}?action=getDashboardData&className=${currentClassName}`)
+        .then(res => res.json())
+        .then(data => { renderAdminRecords(data.rows); renderAdminStats(data.rows); })
+        .catch(err => console.error(err));
+        
+      if (currentUserRole === 'admin') {
+        loadQuotesList();
+        loadTeachersList();
+      }
+    }
+
+    // 渲染打卡紀錄表格
+    function renderAdminRecords(rows) {
+      const tbody = document.getElementById('adminRecordsTableBody');
+      tbody.innerHTML = '';
+      if (rows.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">目前無任何紀錄</td></tr>'; return; }
+      rows.forEach(row => {
+        const imgUrl = row[7] || '';
+        const imgHtml = imgUrl ? `<img src="${getDisplayImageUrl(imgUrl)}" class="thumbnail-small" onclick="window.open('${imgUrl}', '_blank')" title="點擊檢視原圖">` : '無';
+        tbody.innerHTML += `<tr><td class="small text-muted">${row[0]||''}</td><td>${row[1]||''}</td><td>${row[2]||''}</td><td class="fw-bold">《${row[3]||''}》</td><td><div class="thoughts-cell">${row[6]||''}</div></td><td class="text-center">${imgHtml}</td></tr>`;
+      });
+    }
+
+    // 渲染統計表格
+    function renderAdminStats(rows) {
+      const statsObj = {};
+      rows.forEach(row => {
+        const key = `${row[1]}_${row[2]}`;
+        if (statsObj[key]) statsObj[key].count += 1;
+        else statsObj[key] = { cls: row[1]||'未填', name: row[2]||'未填', count: 1 };
+      });
+      // 依照打卡篇數排序
+      const statsArray = Object.values(statsObj).sort((a, b) => b.count - a.count);
+      const tbody = document.getElementById('adminStatsTableBody');
+      tbody.innerHTML = '';
+      if (statsArray.length === 0) { tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4">目前無統計資料</td></tr>'; return; }
+      statsArray.forEach((stat, idx) => {
+        tbody.innerHTML += `<tr><td><span class="badge bg-secondary rounded-pill">${idx+1}</span></td><td>${stat.cls}</td><td>${stat.name}</td><td class="text-primary fw-bold">${stat.count} 篇</td></tr>`;
+      });
+    }
+
+    // ========== 金句管理與導師帳號管理 (限管理員) ==========
+    
+    function loadQuotesList() {
+      fetch(`${SCRIPT_URL}?action=getQuotesList`).then(res => res.json()).then(data => {
+        const c = document.getElementById('quotesListContainer'); c.innerHTML = '';
+        if(data.quotes && data.quotes.length>0) { 
+          data.quotes.forEach(q => c.innerHTML += `<div class="quote-item"><i class="fas fa-leaf text-success me-2"></i> ${q}</div>`); 
+        } else { c.innerHTML = '<div class="text-center text-muted py-4">目前尚未建立任何金句</div>'; }
+      }).catch(err => console.error(err));
+    }
+
+    function submitNewQuote() {
+      const q = document.getElementById('newQuoteInput').value.trim();
+      if(!q) return Swal.fire('提示', '請輸入金句內容', 'warning');
+      Swal.fire({ title: '新增中...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'addQuote', data: { password: sessionAdminPassword, quoteText: q } }) })
+      .then(res => res.json()).then(res => {
+        if(res.success) { Swal.fire('成功', '金句儲存完畢', 'success'); document.getElementById('newQuoteInput').value=''; loadQuotesList(); }
+        else Swal.fire('錯誤', res.message, 'error');
+      });
+    }
+
+    function loadTeachersList() {
+      fetch(`${SCRIPT_URL}?action=getTeachersList`).then(res => res.json()).then(data => {
+        const c = document.getElementById('teachersListContainer'); c.innerHTML = '';
+        if(data.teachers && data.teachers.length>0) {
+          data.teachers.forEach(t => {
+            c.innerHTML += `<div class="teacher-item d-flex justify-content-between align-items-center">
+              <div><span class="badge bg-secondary me-2 fs-6">${t.className}</span> <span class="text-muted small">密碼: ${t.password}</span></div>
+            </div>`;
+          });
+        } else { c.innerHTML = '<div class="text-center text-muted py-4">尚未建立任何導師帳號</div>'; }
+      }).catch(err => console.error(err));
+    }
+
+    function submitNewTeacher() {
+      const cls = document.getElementById('tClassName').value.trim();
+      const pwd = document.getElementById('tPassword').value.trim();
+      if(!cls || !pwd) return Swal.fire('提示', '請完整填寫班級與密碼', 'warning');
+
+      Swal.fire({ title: '儲存中...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      fetch(SCRIPT_URL, { 
+        method: 'POST', 
+        body: JSON.stringify({ action: 'addTeacher', data: { adminPassword: sessionAdminPassword, className: cls, teacherPassword: pwd } }) 
+      })
+      .then(res => res.json()).then(res => {
+        if(res.success) { 
+          Swal.fire('成功', `班級 ${cls} 的帳號已設定完成`, 'success'); 
+          document.getElementById('tClassName').value=''; 
+          document.getElementById('tPassword').value=''; 
+          loadTeachersList(); 
+        }
+        else Swal.fire('錯誤', res.message, 'error');
+      });
     }
   </script>
 </body>
