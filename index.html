@@ -1,74 +1,83 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
   <title>興嘉國小親子共讀護照</title>
   
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   
   <style>
     :root {
-      --primary-color: #00897b;
-      --secondary-color: #004d40;
-      --bg-color: #f0f4f8;
+      --primary-color: #2196f3;      
+      --primary-dark: #00695c;       
+      --accent-color: #ffb74d;       
+      --bg-color: #f4f6f8;           
     }
 
-    body { font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif; background-color: var(--bg-color); color: #333; }
+    body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: #333; padding-bottom: 60px; }
 
-    /* 頂部橫幅 */
-    .header-banner { background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: white; padding: 2.5rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 2rem; position: relative; }
-    .admin-login-btn { position: absolute; top: 15px; right: 20px; color: rgba(255,255,255,0.5); font-size: 1.2rem; cursor: pointer; transition: color 0.3s; }
-    .admin-login-btn:hover { color: white; }
+    /* 頂部橫幅 (對齊截圖的漸層綠) */
+    .header-banner { background: linear-gradient(135deg, #1b9389 0%, #2ebf91 100%); color: white; padding: 3rem 1rem 4rem 1rem; position: relative; }
+    .app-title { font-size: 2.2rem; font-weight: 700; letter-spacing: 2px; margin-bottom: 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+    .en-title { font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 600; opacity: 0.8; background: rgba(255,255,255,0.2); display: inline-block; padding: 6px 20px; border-radius: 50px; }
+
+    /* 懸浮金句 (對齊截圖的白底圓角膠囊) */
+    .quote-pill-container { margin-top: -30px; position: relative; z-index: 10; padding: 0 15px; }
+    .quote-pill { background: white; border-radius: 50px; padding: 15px 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; max-width: 800px; margin: 0 auto; border-left: 6px solid var(--accent-color); }
+    .quote-icon { font-size: 1.5rem; color: var(--accent-color); margin-right: 15px; opacity: 0.8; }
+    .quote-text { font-size: 1.05rem; font-weight: 600; color: #555; margin: 0; }
+    .quote-label { font-size: 0.7rem; color: #999; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; text-align: left; width: 100%; display: block; }
 
     /* 卡片共用樣式 */
-    .custom-card { background: white; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.05); border: none; padding: 2rem; margin-bottom: 1.5rem; }
+    .glass-card { background: white; border: none; border-radius: 15px; box-shadow: 0 6px 20px rgba(0,0,0,0.04); }
 
-    /* 表單元件 */
-    .form-floating > .form-control { border-radius: 12px; border: 1px solid #e0e0e0; background-color: #fdfdfd; }
-    .form-floating > .form-control:focus { border-color: var(--primary-color); box-shadow: 0 0 0 0.25rem rgba(0, 137, 123, 0.25); }
-    .upload-box { border: 2px dashed #ced4da; border-radius: 15px; padding: 2rem 1rem; text-align: center; cursor: pointer; transition: all 0.3s ease; background-color: #fafafa; }
-    .upload-box:hover { border-color: var(--primary-color); background-color: #e0f2f1; }
-    .upload-box i { font-size: 3rem; color: #adb5bd; margin-bottom: 1rem; }
-    #previewImage { max-width: 100%; max-height: 250px; border-radius: 10px; display: none; margin-top: 15px; }
+    /* 左側直立統計卡片 (對齊截圖) */
+    .stat-vertical-card { background: white; border-radius: 15px; padding: 2.5rem 1rem; text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,0.04); height: 100%; display: flex; flex-direction: column; justify-content: center; }
+    .stat-vertical-card i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.7; }
+    .stat-number { font-size: 3.5rem; font-weight: 800; color: #1b9389; line-height: 1; margin-bottom: 0.5rem; }
+    .stat-label { font-size: 0.95rem; color: #777; font-weight: 600; }
 
-    /* 標籤與按鈕 */
-    .char-badge { font-size: 0.85rem; padding: 0.5em 1em; border-radius: 50px; font-weight: 600; }
-    .bg-error { background-color: #ffcdd2; color: #c62828; }
-    .bg-ok { background-color: #c8e6c9; color: #2e7d32; }
-    .btn-submit { background: var(--primary-color); border: none; border-radius: 50px; padding: 12px 30px; font-size: 1.1rem; font-weight: bold; color: white; transition: all 0.3s; }
-    .btn-submit:hover:not(:disabled) { background: var(--secondary-color); transform: translateY(-2px); }
-    .btn-submit:disabled { background: #ccc; }
-
-    /* 右側數據區塊 */
-    .stat-box { background: linear-gradient(135deg, #ffffff 0%, #f1f8e9 100%); border-left: 5px solid var(--primary-color); padding: 1.5rem; border-radius: 15px; margin-bottom: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-    .stat-number { font-size: 2.5rem; font-weight: bold; color: var(--primary-color); }
+    /* 右側最新動態列表 (對齊截圖) */
+    .feed-container { max-height: 500px; overflow-y: auto; padding-right: 5px; }
+    .feed-container::-webkit-scrollbar { width: 6px; }
+    .feed-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+    .feed-container::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
     
-    /* 動態列表與捲軸 */
-    .recent-posts-container { max-height: 380px; overflow-y: auto; padding-right: 5px; }
-    .recent-posts-container::-webkit-scrollbar { width: 6px; }
-    .recent-posts-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
-    .recent-posts-container::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 4px; opacity: 0.7; }
-    .recent-posts-container::-webkit-scrollbar-thumb:hover { background: #004d40; }
+    .feed-item { padding: 15px 0; border-bottom: 1px dashed #eee; display: flex; flex-direction: column; }
+    .feed-item:last-child { border-bottom: none; }
+    .feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .news-badge { background: #e0f2f1; color: #00695c; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; margin-right: 10px; }
+    .student-name { font-weight: 700; color: #333; margin-right: 5px; }
+    .book-title { color: #1976d2; font-weight: bold; }
+    .feed-time { font-size: 0.85rem; color: #999; }
+    
+    /* 心得區塊 (左側橘線) */
+    .thought-box { display: flex; align-items: flex-start; justify-content: space-between; }
+    .thought-text { font-size: 0.95rem; color: #555; padding-left: 15px; border-left: 3px solid var(--accent-color); line-height: 1.6; word-break: break-word; flex: 1; }
+    
+    /* 縮圖樣式 */
+    .feed-thumbnail { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-left: 15px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 2px solid white; transition: transform 0.2s; flex-shrink: 0; }
+    .feed-thumbnail:hover { transform: scale(1.05); }
 
-    .recent-post-item { padding: 1rem 0; border-bottom: 1px dashed #eee; display: flex; justify-content: space-between; align-items: flex-start; }
-    .recent-post-item:last-child { border-bottom: none; }
-    .post-content { flex: 1; padding-right: 15px; min-width: 0; }
-    .post-thumbnail { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: transform 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 2px solid #fff; flex-shrink: 0; }
-    .post-thumbnail:hover { transform: scale(1.05); }
-    .thought-text { font-size: 0.9rem; color: #555; background: #f9fbfb; padding: 10px; border-radius: 10px; border-left: 3px solid #ffb74d; margin-top: 8px; line-height: 1.4; word-break: break-word; }
-    .news-badge { background: #e0f2f1; color: #005b4f; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 8px; font-weight: bold; }
-
-    /* 後台區塊 */
-    .admin-table th { background-color: var(--primary-color); color: white; white-space: nowrap; }
+    /* 導航與表單 */
+    .nav-pills .nav-link { background: white; color: #666; border-radius: 50px; padding: 12px 30px; margin: 0 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); font-weight: bold; transition: all 0.3s; }
+    .nav-pills .nav-link.active { background: #1b9389; color: white; }
+    .upload-box { border: 2px dashed #b2dfdb; border-radius: 15px; padding: 25px; background: #fafcfc; text-align: center; cursor: pointer; transition: all 0.3s; }
+    .upload-box:hover { background: #e0f2f1; border-color: #1b9389; }
+    .btn-action { background: #1b9389; color: white; border: none; border-radius: 50px; padding: 12px 40px; font-size: 1.1rem; font-weight: bold; width: 100%; transition: all 0.3s; }
+    .btn-action:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(27, 147, 137, 0.3); color: white; }
+    .btn-action:disabled { background: #ccc; cursor: not-allowed; }
+    .char-badge { font-size: 0.85rem; padding: 6px 12px; border-radius: 20px; font-weight: bold; }
+    
+    /* 後台管理與鎖頭 */
+    .admin-login-btn { position: absolute; top: 15px; right: 20px; color: rgba(255,255,255,0.4); font-size: 1.2rem; cursor: pointer; }
+    .admin-login-btn:hover { color: white; }
+    .admin-table th { background-color: #1b9389; color: white; white-space: nowrap; }
     .thumbnail-small { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; cursor: pointer; border: 1px solid #ddd; }
-    .thoughts-cell { max-width: 250px; overflow-y: auto; max-height: 80px; font-size: 0.9rem; }
-    .quote-item, .teacher-item { background: #f8f9fa; border-left: 4px solid var(--primary-color); padding: 15px; border-radius: 5px; margin-bottom: 10px; font-size: 1rem; color: #444;}
-    
-    /* 登入視窗樣式 */
-    .swal2-input.custom-login-input { margin: 10px auto; width: 80%; border-radius: 10px; }
   </style>
 </head>
 <body>
@@ -77,60 +86,105 @@
   <div class="header-banner text-center">
     <i class="fas fa-lock admin-login-btn" onclick="promptLogin()" title="系統登入 (管理員/導師)"></i>
     <div class="container">
-      <h1 class="fw-bold"><i class="fas fa-book-reader me-2"></i>興嘉國小親子共讀護照</h1>
-      <!-- 隨機金句顯示區 -->
-      <p class="mb-0 mt-2 opacity-75 fs-5 fw-bold" id="quoteText">載入金句中...</p>
+      <div class="app-title">興嘉國小親子共讀護照</div>
+      <div class="en-title">Xingjia Elementary School Parent-Child Reading Passport</div>
+    </div>
+  </div>
+
+  <!-- 懸浮金句 -->
+  <div class="quote-pill-container mb-5">
+    <div class="quote-pill">
+      <i class="fas fa-quote-left quote-icon"></i>
+      <div class="text-start w-100">
+        <span class="quote-label">DAILY QUOTE</span>
+        <div class="quote-text" id="quoteText">系統載入中，請稍候...</div>
+      </div>
     </div>
   </div>
 
   <!-- ==================== 前台：打卡與展示區 ==================== -->
-  <div class="container" id="mainAppView">
-    <div class="row">
-      <!-- 左側：打卡表單 -->
-      <div class="col-lg-7">
-        <div class="custom-card">
-          <h4 class="mb-4 text-secondary border-bottom pb-2"><i class="fas fa-edit me-2"></i>我要打卡</h4>
-          <form id="readingForm" onsubmit="handleFormSubmit(event)">
-            <div class="row g-2 mb-3">
-              <div class="col-6"><div class="form-floating"><input type="text" class="form-control" id="className" required placeholder="班級"><label>班級 (例如: 301)</label></div></div>
-              <div class="col-6"><div class="form-floating"><input type="text" class="form-control" id="studentName" required placeholder="姓名"><label>學生姓名</label></div></div>
+  <div class="container pb-5" id="mainAppView">
+    
+    <!-- 上半部：經典儀表板 -->
+    <div class="row g-4 mb-5">
+      <!-- 左側：直立統計卡片 x2 -->
+      <div class="col-md-4">
+        <div class="row g-4 h-100">
+          <div class="col-6 col-md-12" style="height: 50%;">
+            <div class="stat-vertical-card">
+              <i class="fas fa-book-open" style="color: #80cbc4;"></i>
+              <div class="stat-number" id="totalCountDisplay">-</div>
+              <div class="stat-label">累積閱讀篇數</div>
             </div>
-            <div class="form-floating mb-3"><input type="text" class="form-control" id="bookTitle" required placeholder="書名"><label>共讀書名</label></div>
-            <div class="row g-2 mb-3">
-              <div class="col-6"><div class="form-floating"><input type="text" class="form-control" id="bookAuthor" required placeholder="作者"><label>作者</label></div></div>
-              <div class="col-6"><div class="form-floating"><input type="text" class="form-control" id="bookPublisher" required placeholder="出版社"><label>出版社</label></div></div>
+          </div>
+          <div class="col-6 col-md-12" style="height: 50%;">
+            <div class="stat-vertical-card">
+              <i class="fas fa-users" style="color: #ffcc80;"></i>
+              <div class="stat-number" id="familyCountDisplay">-</div>
+              <div class="stat-label">參與家庭總數</div>
             </div>
-            <div class="form-floating mb-2"><textarea class="form-control" id="thoughtsInput" style="height: 150px" required oninput="checkLength()" placeholder="心得"></textarea><label>讀後心得感想 (至少 30 字)</label></div>
-            <div class="text-end mb-4"><span id="charCount" class="char-badge bg-error">0 / 30 字</span></div>
-            <div class="mb-4">
-              <label class="form-label text-secondary fw-bold mb-2"><i class="fas fa-camera me-2"></i>上傳共讀照片</label>
-              <div class="upload-box" onclick="document.getElementById('photoFile').click()">
-                <i class="fas fa-cloud-upload-alt"></i><h6 class="text-secondary">點擊選擇照片</h6>
-                <input type="file" id="photoFile" accept="image/*" class="d-none" onchange="previewFile()" required>
-                <img id="previewImage" src="" alt="照片預覽">
-              </div>
-            </div>
-            <button type="submit" class="btn btn-submit w-100" id="submitBtn" disabled><i class="fas fa-paper-plane me-2"></i> 送出閱讀紀錄</button>
-          </form>
+          </div>
         </div>
       </div>
 
-      <!-- 右側：統計數據與最新動態 -->
-      <div class="col-lg-5">
-        <div class="stat-box d-flex justify-content-between align-items-center">
-          <div><div class="text-muted mb-1"><i class="fas fa-book me-1"></i> 全校累積共讀</div><div class="stat-number" id="totalCountDisplay">0 <span class="fs-5 text-muted fw-normal">本</span></div></div>
-          <div class="text-end"><div class="text-muted mb-1"><i class="fas fa-home me-1"></i> 參與家庭</div><div class="stat-number" id="familyCountDisplay">0 <span class="fs-5 text-muted fw-normal">戶</span></div></div>
+      <!-- 右側：最新打卡動態 -->
+      <div class="col-md-8">
+        <div class="glass-card p-4 h-100">
+          <h5 class="fw-bold text-secondary border-bottom pb-3 mb-3"><i class="fas fa-bullhorn me-2"></i>最新打卡動態</h5>
+          <div class="feed-container" id="recentPostsContainer">
+            <div class="text-center text-muted py-5">資料載入中...</div>
+          </div>
         </div>
-        
-        <div class="custom-card py-3 px-3 mb-4">
-          <h6 class="text-center text-secondary mb-3">各年級參與狀況</h6>
-          <div style="position: relative; height: 160px; width: 100%;"><canvas id="gradeChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- 下半部：功能切換頁籤 -->
+    <ul class="nav nav-pills justify-content-center mb-4" id="pills-tab" role="tablist">
+      <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-home"><i class="fas fa-pencil-alt me-2"></i>我要打卡</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-chart"><i class="fas fa-chart-bar me-2"></i>各年級統計</button></li>
+    </ul>
+
+    <div class="tab-content" id="pills-tabContent">
+      <!-- 打卡表單 -->
+      <div class="tab-pane fade show active" id="pills-home">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="glass-card p-4 p-md-5">
+              <form id="readingForm" onsubmit="handleFormSubmit(event)">
+                <div class="row g-3 mb-3">
+                  <div class="col-sm-6"><div class="form-floating"><input type="text" class="form-control" id="className" required placeholder="班級"><label>班級 (例如: 301)</label></div></div>
+                  <div class="col-sm-6"><div class="form-floating"><input type="text" class="form-control" id="studentName" required placeholder="姓名"><label>學生姓名</label></div></div>
+                </div>
+                <div class="form-floating mb-3"><input type="text" class="form-control" id="bookTitle" required placeholder="書名"><label>共讀書名</label></div>
+                <div class="row g-3 mb-3">
+                  <div class="col-sm-6"><div class="form-floating"><input type="text" class="form-control" id="bookAuthor" required placeholder="作者"><label>作者</label></div></div>
+                  <div class="col-sm-6"><div class="form-floating"><input type="text" class="form-control" id="bookPublisher" required placeholder="出版社"><label>出版社</label></div></div>
+                </div>
+                <div class="form-floating mb-2"><textarea class="form-control" id="thoughtsInput" style="height: 150px" required oninput="checkLength()" placeholder="心得"></textarea><label>讀後心得感想 (至少 30 字)</label></div>
+                <div class="text-end mb-4"><span id="charCount" class="char-badge bg-error">0 / 30 字</span></div>
+                <div class="mb-5">
+                  <label class="form-label text-secondary fw-bold mb-2"><i class="fas fa-camera me-2"></i>上傳共讀照片</label>
+                  <div class="upload-box" onclick="document.getElementById('photoFile').click()">
+                    <i class="fas fa-cloud-upload-alt"></i><h6 class="text-secondary fw-bold">點擊選擇照片</h6>
+                    <input type="file" id="photoFile" accept="image/*" class="d-none" onchange="previewFile()" required>
+                    <img id="previewImage" src="" style="max-width:100%; max-height:200px; display:none; border-radius:10px; margin-top:15px; border:2px solid #ddd;">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-action" id="submitBtn" disabled><i class="fas fa-paper-plane me-2"></i> 送出閱讀紀錄</button>
+              </form>
+            </div>
+          </div>
         </div>
-        
-        <div class="custom-card p-0 overflow-hidden">
-          <div class="bg-light p-3 border-bottom text-center fw-bold text-secondary"><i class="fas fa-bullhorn me-2"></i>最新打卡動態</div>
-          <div class="recent-posts-container p-3" id="recentPostsContainer">
-            <div class="text-center text-muted py-4">資料載入中...</div>
+      </div>
+      
+      <!-- 各年級統計圖表 -->
+      <div class="tab-pane fade" id="pills-chart">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="glass-card p-4">
+              <h5 class="text-center text-secondary mb-4 fw-bold">各年級參與狀況</h5>
+              <div style="position: relative; height: 250px; width: 100%;"><canvas id="gradeChart"></canvas></div>
+            </div>
           </div>
         </div>
       </div>
@@ -138,25 +192,22 @@
   </div>
 
   <!-- ==================== 後台：管理員/導師視角 ==================== -->
-  <div class="container" id="adminAppView" style="display: none;">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h3 class="text-secondary fw-bold" id="adminTitle"><i class="fas fa-user-shield me-2"></i>管理員後台</h3>
-      <button class="btn btn-outline-secondary rounded-pill" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i> 回到首頁</button>
+  <div class="container pb-5" id="adminAppView" style="display: none;">
+    <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+      <h3 class="text-secondary fw-bold mb-0" id="adminTitle"><i class="fas fa-user-shield me-2"></i>管理員後台</h3>
+      <button class="btn btn-outline-secondary rounded-pill fw-bold" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i> 登出回首頁</button>
     </div>
 
-    <div class="custom-card p-0 overflow-hidden">
-      <!-- 頁籤導覽 -->
-      <ul class="nav nav-tabs bg-light pt-2 px-3 border-bottom-0" role="tablist">
-        <li class="nav-item"><button class="nav-link active fw-bold" data-bs-toggle="tab" data-bs-target="#records-pane" type="button" role="tab"><i class="fas fa-list me-1"></i> <span id="tabName-records">完整打卡紀錄</span></button></li>
-        <li class="nav-item"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#stats-pane" type="button" role="tab"><i class="fas fa-chart-pie me-1"></i> <span id="tabName-stats">家庭篇數統計</span></button></li>
-        <li class="nav-item" id="nav-quotes"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#quotes-pane" type="button" role="tab"><i class="fas fa-quote-left me-1"></i> 管理閱讀金句</button></li>
-        <li class="nav-item" id="nav-teachers"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#teachers-pane" type="button" role="tab"><i class="fas fa-chalkboard-teacher me-1"></i> 管理導師帳號</button></li>
+    <div class="glass-card p-0 overflow-hidden">
+      <ul class="nav nav-tabs bg-light pt-3 px-3 border-bottom-0" role="tablist">
+        <li class="nav-item"><button class="nav-link active fw-bold border-0" style="background:transparent;" data-bs-toggle="tab" data-bs-target="#records-pane" type="button"><i class="fas fa-list me-1"></i> <span id="tabName-records">打卡紀錄</span></button></li>
+        <li class="nav-item"><button class="nav-link fw-bold border-0" style="background:transparent;" data-bs-toggle="tab" data-bs-target="#stats-pane" type="button"><i class="fas fa-trophy me-1"></i> <span id="tabName-stats">篇數排行</span></button></li>
+        <li class="nav-item" id="nav-quotes"><button class="nav-link fw-bold border-0" style="background:transparent;" data-bs-toggle="tab" data-bs-target="#quotes-pane" type="button"><i class="fas fa-quote-left me-1"></i> 管理金句</button></li>
+        <li class="nav-item" id="nav-teachers"><button class="nav-link fw-bold border-0" style="background:transparent;" data-bs-toggle="tab" data-bs-target="#teachers-pane" type="button"><i class="fas fa-chalkboard-teacher me-1"></i> 導師帳號</button></li>
       </ul>
 
-      <!-- 頁籤內容 -->
-      <div class="tab-content p-4">
-        <!-- 面板 1：紀錄 -->
-        <div class="tab-pane fade show active" id="records-pane" role="tabpanel">
+      <div class="tab-content p-4 border-top">
+        <div class="tab-pane fade show active" id="records-pane">
           <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
             <table class="table table-hover table-bordered admin-table mb-0">
               <thead class="position-sticky top-0 shadow-sm" style="z-index: 1;"><tr><th>時間</th><th>班級</th><th>姓名</th><th>書名</th><th>心得</th><th class="text-center">照片</th></tr></thead>
@@ -165,8 +216,7 @@
           </div>
         </div>
 
-        <!-- 面板 2：統計 -->
-        <div class="tab-pane fade" id="stats-pane" role="tabpanel">
+        <div class="tab-pane fade" id="stats-pane">
           <div class="row justify-content-center">
             <div class="col-md-8">
               <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
@@ -179,34 +229,31 @@
           </div>
         </div>
 
-        <!-- 面板 3：金句 (僅管理員可見) -->
-        <div class="tab-pane fade" id="quotes-pane" role="tabpanel">
+        <div class="tab-pane fade" id="quotes-pane">
           <div class="row justify-content-center">
             <div class="col-md-8">
               <div class="input-group mb-4">
-                <input type="text" id="newQuoteInput" class="form-control" placeholder="請輸入新的閱讀金句 (例如: 閱讀，是我們飛向世界最美的翅膀。)">
-                <button class="btn btn-primary" style="background-color: var(--primary-color); border:none;" type="button" onclick="submitNewQuote()"><i class="fas fa-plus"></i> 新增金句</button>
+                <input type="text" id="newQuoteInput" class="form-control" placeholder="請輸入新的閱讀金句...">
+                <button class="btn btn-action" style="width:auto; border-radius:0 12px 12px 0;" type="button" onclick="submitNewQuote()"><i class="fas fa-plus"></i> 新增</button>
               </div>
-              <h6 class="text-muted border-bottom pb-2 mb-3">已儲存的金句列表 (新至舊)</h6>
+              <h6 class="text-muted border-bottom pb-2 mb-3 fw-bold">已儲存的金句列表</h6>
               <div id="quotesListContainer" style="max-height: 400px; overflow-y: auto;"></div>
             </div>
           </div>
         </div>
 
-        <!-- 面板 4：導師帳號 (僅管理員可見) -->
-        <div class="tab-pane fade" id="teachers-pane" role="tabpanel">
+        <div class="tab-pane fade" id="teachers-pane">
           <div class="row justify-content-center">
             <div class="col-md-8">
-              <div class="card bg-light border-0 mb-4 p-3">
-                <h6 class="fw-bold mb-3"><i class="fas fa-user-plus me-2"></i>新增或修改導師帳號</h6>
+              <div class="card bg-light border-0 mb-4 p-4" style="border-radius:15px;">
+                <h6 class="fw-bold mb-3 text-secondary"><i class="fas fa-user-plus me-2"></i>新增或修改導師帳號</h6>
                 <div class="row g-2">
-                  <div class="col-sm-5"><input type="text" id="tClassName" class="form-control" placeholder="班級 (例如: 301或幼兒園)"></div>
+                  <div class="col-sm-5"><input type="text" id="tClassName" class="form-control" placeholder="班級 (如: 301)"></div>
                   <div class="col-sm-4"><input type="text" id="tPassword" class="form-control" placeholder="設定登入密碼"></div>
-                  <div class="col-sm-3"><button class="btn btn-primary w-100" style="background-color: var(--primary-color); border:none;" type="button" onclick="submitNewTeacher()"><i class="fas fa-save me-1"></i> 儲存</button></div>
+                  <div class="col-sm-3"><button class="btn btn-action" style="padding:10px;" type="button" onclick="submitNewTeacher()">儲存</button></div>
                 </div>
-                <small class="text-muted mt-2">💡 提示：若輸入已存在的班級，將會直接更新該班級的密碼。</small>
               </div>
-              <h6 class="text-muted border-bottom pb-2 mb-3">目前的導師帳號清單</h6>
+              <h6 class="text-muted border-bottom pb-2 mb-3 fw-bold">導師帳號清單</h6>
               <div id="teachersListContainer" style="max-height: 400px; overflow-y: auto;"></div>
             </div>
           </div>
@@ -216,14 +263,13 @@
     </div>
   </div>
 
-  <!-- 引入必要的 JavaScript 套件 -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script>
     // ==========================================
-    // ✅ 這裡已經為您填寫正確的 Google Apps Script API 網址
+    // ✅ 專屬 API 網址 (無需再做任何修改)
     // ==========================================
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzoV4qkb2MQOCR24v7iLyR_pRBJVFd3Vi5hpU27Vdk9MCIUTCi8Pcr7PVUCrm6iWKbH/exec"; 
     
@@ -232,44 +278,14 @@
     let sessionAdminPassword = "";
     let myChart = null;
 
-    // 網頁一打開，立刻去抓取資料
+    // 網頁載入時初始化
     window.onload = function() {
-      fetchPublicData(); 
+      fetchPublicData();
       fetchQuote();
     };
 
     // ========== 前台功能 ==========
 
-    // 檢查心得字數防呆機制
-    function checkLength() {
-      const text = document.getElementById('thoughtsInput').value;
-      const len = text.replace(/\s/g, '').length;
-      const badge = document.getElementById('charCount');
-      const btn = document.getElementById('submitBtn');
-      if (len >= 30) { 
-        badge.innerHTML = `<i class="fas fa-check"></i> ${len} / 30`; 
-        badge.className = 'char-badge bg-ok'; 
-        btn.disabled = false; 
-      } else { 
-        badge.innerHTML = `${len} / 30 (尚缺 ${30 - len})`; 
-        badge.className = 'char-badge bg-error'; 
-        btn.disabled = true; 
-      }
-    }
-
-    // 預覽家長選擇的照片
-    function previewFile() {
-      const file = document.getElementById('photoFile').files[0];
-      const preview = document.getElementById('previewImage');
-      const reader = new FileReader();
-      reader.addEventListener("load", function () { 
-        preview.src = reader.result; 
-        preview.style.display = 'inline-block'; 
-      }, false);
-      if (file) reader.readAsDataURL(file);
-    }
-
-    // 將真實姓名遮蔽 (王小明 -> 王Ｏ明) 保護隱私
     function maskName(name) {
       if (!name) return "";
       if (name.length <= 1) return name;
@@ -278,142 +294,136 @@
       return name.charAt(0) + 'Ｏ'.repeat(name.length - 2) + name.charAt(name.length - 1);
     }
 
-    // 將 Google Drive 網址轉換為可以直接顯示的圖片網址
     function getDisplayImageUrl(url) {
       if (!url) return '';
       const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
       return (match && match[1]) ? `https://drive.google.com/uc?id=${match[1]}` : url;
     }
 
-    // 取得並顯示首頁的所有數據
+    // 載入首頁公開數據
     function fetchPublicData() {
       fetch(`${SCRIPT_URL}?action=getPublicData`)
-        .then(res => {
-          if(!res.ok) throw new Error("網路連線錯誤");
-          return res.json();
-        })
+        .then(res => res.json())
         .then(data => {
-          if(data.error) {
-            console.error("後端回傳錯誤:", data.error);
-            document.getElementById('recentPostsContainer').innerHTML = `<div class="p-4 text-center text-danger">資料庫連線失敗，請稍後再試。</div>`;
-            return;
-          }
-
-          document.getElementById('totalCountDisplay').innerHTML = `${data.totalCount} <span class="fs-5 text-muted fw-normal">本</span>`;
-          document.getElementById('familyCountDisplay').innerHTML = `${data.familyCount} <span class="fs-5 text-muted fw-normal">戶</span>`;
+          document.getElementById('totalCountDisplay').innerText = data.totalCount || 0;
+          document.getElementById('familyCountDisplay').innerText = data.familyCount || 0;
           updateChart(data.gradeStats);
           
           const container = document.getElementById('recentPostsContainer');
           container.innerHTML = '';
           
           if(data.recentPosts && data.recentPosts.length > 0) {
-            data.recentPosts.forEach(post => {
-              const imgUrl = getDisplayImageUrl(post.imageUrl);
-              const imgHtml = imgUrl ? `<img src="${imgUrl}" class="post-thumbnail ms-3" onclick="window.open('${post.imageUrl}', '_blank')" title="點擊放大查看">` : '';
-              const maskedName = maskName(post.name);
-              const shortThoughts = (post.thoughts && post.thoughts.length > 50) ? post.thoughts.substring(0, 50) + '...' : post.thoughts;
+            data.recentPosts.forEach(p => {
+              const imgUrl = getDisplayImageUrl(p.imageUrl);
+              const imgHtml = imgUrl ? `
+                <img src="${imgUrl}" class="feed-thumbnail" onclick="window.open('${p.imageUrl}', '_blank')" title="點擊放大">
+              ` : '';
               
+              const shortThoughts = (p.thoughts && p.thoughts.length > 60) ? p.thoughts.substring(0, 60) + '...' : p.thoughts;
+              const dayStr = new Date(p.time).toLocaleDateString('zh-TW', { month: 'short', day: 'numeric' });
+
               container.innerHTML += `
-                <div class="recent-post-item">
-                  <div class="post-content">
-                    <div class="small text-muted mb-1"><span class="news-badge">${post.cls}</span> ${maskedName}</div>
-                    <div class="fw-bold text-primary mb-1">閱讀《${post.book}》</div>
-                    <div class="thought-text"><i class="fas fa-quote-left text-muted me-1" style="opacity:0.5"></i> ${shortThoughts}</div>
+                <div class="feed-item">
+                  <div class="feed-header">
+                    <div>
+                      <span class="news-badge">${p.cls}</span>
+                      <span class="student-name">${maskName(p.name)}</span>
+                      <span class="text-muted" style="font-size:0.9rem;">閱讀</span>
+                      <span class="book-title">《${p.book}》</span>
+                    </div>
+                    <span class="feed-time">${dayStr}</span>
                   </div>
-                  ${imgHtml}
+                  <div class="thought-box">
+                    <div class="thought-text"><i class="fas fa-quote-left text-muted me-2" style="opacity:0.4;"></i>${shortThoughts}</div>
+                    ${imgHtml}
+                  </div>
                 </div>`;
             });
           } else { 
-            container.innerHTML = '<div class="text-center text-muted py-4">目前還沒有紀錄，搶先打卡吧！</div>'; 
+            container.innerHTML = '<div class="text-center text-muted py-5">目前還沒有紀錄，搶先打卡吧！</div>'; 
           }
         }).catch(err => {
-          console.error("Fetch 錯誤:", err);
-          document.getElementById('recentPostsContainer').innerHTML = '<div class="p-4 text-center text-danger">目前無法載入資料，請重新整理網頁。</div>';
+          console.error(err);
+          document.getElementById('recentPostsContainer').innerHTML = '<div class="text-center text-danger py-5">資料載入失敗，請檢查後端連線。</div>';
         });
     }
 
-    // 取得隨機金句
+    // 載入每日金句
     function fetchQuote() {
       fetch(`${SCRIPT_URL}?action=getRandomQuote`)
         .then(res => res.json())
-        .then(data => {
-          if(data.quote) document.getElementById('quoteText').innerText = data.quote;
-      }).catch(err => {
-          console.error(err);
-          document.getElementById('quoteText').innerText = "「閱讀，是我們飛向世界最美的翅膀。」";
-      });
+        .then(data => { if(data.quote) document.getElementById('quoteText').innerText = data.quote; })
+        .catch(err => console.error(err));
     }
 
-    // 繪製長條圖
-    function updateChart(stats) {
-      const ctx = document.getElementById('gradeChart').getContext('2d');
-      if(myChart) myChart.destroy();
-      myChart = new Chart(ctx, {
-        type: 'bar',
-        data: { labels: Object.keys(stats), datasets: [{ label: '閱讀本數', data: Object.values(stats), backgroundColor: '#80cbc4', borderColor: '#00897b', borderWidth: 1, borderRadius: 5 }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
-      });
+    // 字數檢查與圖片預覽
+    function checkLength() {
+      const len = document.getElementById('thoughtsInput').value.replace(/\s/g, '').length;
+      const badge = document.getElementById('charCount');
+      const btn = document.getElementById('submitBtn');
+      if (len >= 30) { badge.innerHTML = `<i class="fas fa-check"></i> ${len} / 30`; badge.className = 'char-badge bg-ok'; btn.disabled = false; }
+      else { badge.innerHTML = `${len} / 30 (尚缺 ${30 - len})`; badge.className = 'char-badge bg-error'; btn.disabled = true; }
     }
 
-    // 家長點擊「送出」按鈕的處理
+    function previewFile() {
+      const file = document.getElementById('photoFile').files[0];
+      const preview = document.getElementById('previewImage');
+      const reader = new FileReader();
+      reader.onload = function () { preview.src = reader.result; preview.style.display = 'inline-block'; };
+      if (file) reader.readAsDataURL(file);
+    }
+
+    // 表單送出
     function handleFormSubmit(e) {
       e.preventDefault();
-      
       const file = document.getElementById('photoFile').files[0];
-      if (!file) {
-        Swal.fire('錯誤', '請記得上傳共讀照片喔！', 'warning');
-        return;
-      }
+      if (!file) return Swal.fire('提示', '請上傳共讀照片', 'warning');
 
-      Swal.fire({ title: '上傳中...', html: '照片傳送中，請不要關閉網頁', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      Swal.fire({ title: '上傳中...', text: '照片傳送中，請勿關閉視窗', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
       const reader = new FileReader();
       reader.onload = function(e_read) {
         const payload = {
           action: 'processForm',
           data: {
-            className: document.getElementById('className').value, 
-            studentName: document.getElementById('studentName').value,
-            bookTitle: document.getElementById('bookTitle').value, 
-            bookAuthor: document.getElementById('bookAuthor').value,
-            bookPublisher: document.getElementById('bookPublisher').value, 
-            thoughts: document.getElementById('thoughtsInput').value,
-            imageName: file.name, 
-            imageMime: file.type, 
-            imageData: e_read.target.result.split(',')[1] // 擷取圖片的 base64 代碼
+            className: document.getElementById('className').value, studentName: document.getElementById('studentName').value,
+            bookTitle: document.getElementById('bookTitle').value, bookAuthor: document.getElementById('bookAuthor').value,
+            bookPublisher: document.getElementById('bookPublisher').value, thoughts: document.getElementById('thoughtsInput').value,
+            imageName: file.name, imageMime: file.type, imageData: e_read.target.result.split(',')[1]
           }
         };
-        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) })
-        .then(res => res.json())
-        .then(res => {
+        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) }).then(res => res.json()).then(res => {
           if(res.success) {
-            Swal.fire('成功！', '閱讀紀錄與照片已順利送出！', 'success').then(() => {
+            Swal.fire('成功', '您的閱讀紀錄已送出！', 'success').then(() => {
               document.getElementById('readingForm').reset();
               document.getElementById('previewImage').style.display = 'none';
-              checkLength(); 
-              fetchPublicData(); // 重新整理右側列表與數字
+              checkLength(); fetchPublicData(); 
             });
-          } else {
-            Swal.fire('錯誤', res.message, 'error');
-          }
-        }).catch(err => {
-          Swal.fire('錯誤', '連線異常，請檢查網路後再試', 'error');
-        });
+          } else Swal.fire('錯誤', res.message, 'error');
+        }).catch(err => Swal.fire('錯誤', '連線異常', 'error'));
       };
       reader.readAsDataURL(file);
     }
 
-    // ========== 後台登入與管理 ==========
+    function updateChart(stats) {
+      const ctx = document.getElementById('gradeChart').getContext('2d');
+      if(myChart) myChart.destroy();
+      myChart = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: Object.keys(stats), datasets: [{ label: '閱讀本數', data: Object.values(stats), backgroundColor: '#1b9389', borderColor: '#00695c', borderWidth: 1, borderRadius: 6 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } }, x: { grid: {display: false} } } }
+      });
+    }
 
-    // 顯示密碼輸入框
+    // ========== 後台登入與管理 ==========
     function promptLogin() {
       Swal.fire({
-        title: '系統登入',
+        title: '<i class="fas fa-lock text-secondary mb-2"></i><br>系統登入',
         html: `
           <input id="login-account" class="swal2-input custom-login-input" placeholder="帳號 (管理員填 admin，導師填班級)">
           <input id="login-password" type="password" class="swal2-input custom-login-input" placeholder="請輸入密碼">
         `,
-        showCancelButton: true, confirmButtonText: '登入', confirmButtonColor: '#00897b', cancelButtonText: '取消',
+        showCancelButton: true, confirmButtonText: '登入', confirmButtonColor: '#1b9389', cancelButtonText: '取消',
         showLoaderOnConfirm: true,
         preConfirm: () => {
           const acc = document.getElementById('login-account').value;
@@ -424,26 +434,25 @@
           .then(res => res.json())
           .then(res => {
             if (!res.success) throw new Error(res.message);
-            currentUserRole = res.role;
-            currentClassName = res.className || 'admin';
-            if (res.role === 'admin') sessionAdminPassword = pwd; // 暫存管理員密碼以供設定導師帳號使用
+            currentUserRole = res.role; currentClassName = res.className || 'admin';
+            if (res.role === 'admin') sessionAdminPassword = pwd;
             return true;
           }).catch(err => Swal.showValidationMessage(err.message));
         }, allowOutsideClick: () => !Swal.isLoading()
       }).then((res) => { if (res.isConfirmed) setupDashboardView(); });
     }
 
-    // 依照登入身分(導師或管理員)切換畫面
     function setupDashboardView() {
       document.getElementById('mainAppView').style.display = 'none';
       document.getElementById('adminAppView').style.display = 'block';
+      document.querySelector('.quote-pill-container').style.display = 'none'; // 隱藏首頁金句
 
       if (currentUserRole === 'teacher') {
-        document.getElementById('adminTitle').innerHTML = `<i class="fas fa-chalkboard-teacher me-2"></i>導師後台 (${currentClassName}班)`;
+        document.getElementById('adminTitle').innerHTML = `<i class="fas fa-chalkboard-teacher me-2"></i>導師後台 <span class="fs-5 text-muted">(${currentClassName}班)</span>`;
         document.getElementById('tabName-records').innerText = '班級打卡紀錄';
         document.getElementById('tabName-stats').innerText = '班級篇數統計';
-        document.getElementById('nav-quotes').style.display = 'none'; // 隱藏金句管理
-        document.getElementById('nav-teachers').style.display = 'none'; // 隱藏帳號管理
+        document.getElementById('nav-quotes').style.display = 'none';
+        document.getElementById('nav-teachers').style.display = 'none';
       } else {
         document.getElementById('adminTitle').innerHTML = `<i class="fas fa-user-shield me-2"></i>管理員後台`;
         document.getElementById('tabName-records').innerText = '全校打卡紀錄';
@@ -452,42 +461,35 @@
         document.getElementById('nav-teachers').style.display = 'block';
       }
 
-      // 自動跳轉回第一個頁籤
       const firstTab = new bootstrap.Tab(document.querySelector('#adminAppView .nav-tabs button[data-bs-target="#records-pane"]'));
       firstTab.show();
       loadDashboardData();
     }
 
-    // 登出按鈕
     function logout() {
       document.getElementById('adminAppView').style.display = 'none';
       document.getElementById('mainAppView').style.display = 'block';
+      document.querySelector('.quote-pill-container').style.display = 'block';
       currentUserRole = ""; currentClassName = ""; sessionAdminPassword = "";
       fetchQuote(); 
     }
 
-    // 載入後台的所有資料
     function loadDashboardData() {
       fetch(`${SCRIPT_URL}?action=getDashboardData&className=${currentClassName}`)
         .then(res => res.json())
         .then(data => { renderAdminRecords(data.rows); renderAdminStats(data.rows); })
         .catch(err => console.error(err));
         
-      if (currentUserRole === 'admin') {
-        loadQuotesList();
-        loadTeachersList();
-      }
+      if (currentUserRole === 'admin') { loadQuotesList(); loadTeachersList(); }
     }
 
     function renderAdminRecords(rows) {
-      const tbody = document.getElementById('adminRecordsTableBody');
-      tbody.innerHTML = '';
-      if (!rows || rows.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">目前無任何紀錄</td></tr>'; return; }
-      
+      const tbody = document.getElementById('adminRecordsTableBody'); tbody.innerHTML = '';
+      if (!rows || rows.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-5 text-muted">目前無任何紀錄</td></tr>'; return; }
       rows.forEach(row => {
         const imgUrl = row[7] || '';
         const imgHtml = imgUrl ? `<img src="${getDisplayImageUrl(imgUrl)}" class="thumbnail-small" onclick="window.open('${imgUrl}', '_blank')" title="點擊檢視大圖">` : '<span class="text-muted small">無照片</span>';
-        tbody.innerHTML += `<tr><td class="small text-muted">${row[0]||''}</td><td>${row[1]||''}</td><td>${row[2]||''}</td><td class="fw-bold">《${row[3]||''}》</td><td><div class="thoughts-cell">${row[6]||''}</div></td><td class="text-center">${imgHtml}</td></tr>`;
+        tbody.innerHTML += `<tr><td class="small text-muted">${row[0]||''}</td><td><span class="badge bg-light text-dark border">${row[1]||''}</span></td><td class="fw-bold">${row[2]||''}</td><td class="text-primary fw-bold">《${row[3]||''}》</td><td><div class="thoughts-cell">${row[6]||''}</div></td><td class="text-center">${imgHtml}</td></tr>`;
       });
     }
 
@@ -500,23 +502,20 @@
           else statsObj[key] = { cls: row[1]||'未填', name: row[2]||'未填', count: 1 };
         });
       }
-      
       const statsArray = Object.values(statsObj).sort((a, b) => b.count - a.count);
-      const tbody = document.getElementById('adminStatsTableBody');
-      tbody.innerHTML = '';
-      if (statsArray.length === 0) { tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4">目前無統計資料</td></tr>'; return; }
-      
+      const tbody = document.getElementById('adminStatsTableBody'); tbody.innerHTML = '';
+      if (statsArray.length === 0) { tbody.innerHTML = '<tr><td colspan="4" class="text-center py-5 text-muted">目前無統計資料</td></tr>'; return; }
       statsArray.forEach((stat, idx) => {
-        tbody.innerHTML += `<tr><td><span class="badge bg-secondary rounded-pill px-3">${idx+1}</span></td><td>${stat.cls}</td><td>${stat.name}</td><td class="text-primary fw-bold fs-5">${stat.count} <span class="fs-6 text-muted">篇</span></td></tr>`;
+        let badgeColor = idx < 3 ? 'bg-danger' : 'bg-secondary';
+        tbody.innerHTML += `<tr><td><span class="badge ${badgeColor} rounded-pill px-3">${idx+1}</span></td><td>${stat.cls}</td><td class="fw-bold">${stat.name}</td><td class="text-success fw-bold fs-5">${stat.count} <span class="fs-6 text-muted">篇</span></td></tr>`;
       });
     }
     
     function loadQuotesList() {
       fetch(`${SCRIPT_URL}?action=getQuotesList`).then(res => res.json()).then(data => {
         const c = document.getElementById('quotesListContainer'); c.innerHTML = '';
-        if(data.quotes && data.quotes.length>0) { 
-          data.quotes.forEach(q => c.innerHTML += `<div class="quote-item"><i class="fas fa-leaf text-success me-2"></i> ${q}</div>`); 
-        } else { c.innerHTML = '<div class="text-center text-muted py-4">目前尚未建立任何金句</div>'; }
+        if(data.quotes && data.quotes.length>0) data.quotes.forEach(q => c.innerHTML += `<div class="quote-item"><i class="fas fa-quote-left text-black-50 me-2"></i> ${q}</div>`); 
+        else c.innerHTML = '<div class="text-center text-muted py-4">目前尚未建立任何金句</div>'; 
       }).catch(err => console.error(err));
     }
 
@@ -535,12 +534,8 @@
       fetch(`${SCRIPT_URL}?action=getTeachersList`).then(res => res.json()).then(data => {
         const c = document.getElementById('teachersListContainer'); c.innerHTML = '';
         if(data.teachers && data.teachers.length>0) {
-          data.teachers.forEach(t => {
-            c.innerHTML += `<div class="teacher-item d-flex justify-content-between align-items-center">
-              <div><span class="badge bg-secondary me-2 fs-6">${t.className}</span> <span class="text-muted small">密碼: ${t.password}</span></div>
-            </div>`;
-          });
-        } else { c.innerHTML = '<div class="text-center text-muted py-4">尚未建立任何導師帳號</div>'; }
+          data.teachers.forEach(t => c.innerHTML += `<div class="teacher-item d-flex justify-content-between align-items-center"><div><span class="badge bg-secondary me-2 fs-6">${t.className} 班</span> <span class="fw-bold text-muted">密碼: ${t.password}</span></div></div>`);
+        } else c.innerHTML = '<div class="text-center text-muted py-4">尚未建立任何導師帳號</div>'; 
       }).catch(err => console.error(err));
     }
 
@@ -548,19 +543,10 @@
       const cls = document.getElementById('tClassName').value.trim();
       const pwd = document.getElementById('tPassword').value.trim();
       if(!cls || !pwd) return Swal.fire('提示', '請完整填寫班級與密碼', 'warning');
-
       Swal.fire({ title: '儲存中...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-      fetch(SCRIPT_URL, { 
-        method: 'POST', 
-        body: JSON.stringify({ action: 'addTeacher', data: { adminPassword: sessionAdminPassword, className: cls, teacherPassword: pwd } }) 
-      })
+      fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'addTeacher', data: { adminPassword: sessionAdminPassword, className: cls, teacherPassword: pwd } }) })
       .then(res => res.json()).then(res => {
-        if(res.success) { 
-          Swal.fire('成功', `班級 ${cls} 的帳號已設定完成`, 'success'); 
-          document.getElementById('tClassName').value=''; 
-          document.getElementById('tPassword').value=''; 
-          loadTeachersList(); 
-        }
+        if(res.success) { Swal.fire('成功', `班級 ${cls} 的帳號已設定完成`, 'success'); document.getElementById('tClassName').value=''; document.getElementById('tPassword').value=''; loadTeachersList(); }
         else Swal.fire('錯誤', res.message, 'error');
       });
     }
